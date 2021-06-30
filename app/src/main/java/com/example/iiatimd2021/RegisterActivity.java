@@ -22,30 +22,29 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
     public TextView emailText;
     public TextView passwordText;
-    public Button loginButton;
+    public Button registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button buttonContinue = findViewById(R.id.button_continue);
-        Button buttonRegister = findViewById(R.id.registerRedirectButton);
-        passwordText = findViewById(R.id.loginTextPassword);
-        emailText = findViewById(R.id.loginTextEmail);
-        loginButton = findViewById(R.id.loginButton);
+        passwordText = findViewById(R.id.registerTextPassword);
+        emailText = findViewById(R.id.registerTextEmail);
+        registerButton = findViewById(R.id.registerButton);
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (emailText.getText().toString().isEmpty() || passwordText.getText().toString().isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Please enter a username and/or password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Please enter a username and/or password", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else if (!emailText.getText().toString().contains("@")) {
-                    Toast.makeText(MainActivity.this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 postDataUsingVolley(emailText.getText().toString(), passwordText.getText().toString());
@@ -55,30 +54,23 @@ public class MainActivity extends AppCompatActivity {
         buttonContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ThirdActivity.class));
-            }
-        });
-
-        buttonRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+                startActivity(new Intent(RegisterActivity.this, ThirdActivity.class));
             }
         });
     }
 
     private void postDataUsingVolley(String email, String password) {
-        String url = "http://10.0.2.2:8000/api/login"; //emulator
-        //String url = "http://127.0.0.1:8000/api/login"; //normal
+        String url = "http://10.0.2.2:8000/api/register"; //emulator
+        //String url = "http://127.0.0.1:8000/api/register"; //normal
 
-        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+        RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
         StringRequest request = new StringRequest(Request.Method.POST, url, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 try {
                     JSONObject respObj = new JSONObject(response);
-                    startActivity(new Intent(MainActivity.this, ThirdActivity.class));
+                    startActivity(new Intent(RegisterActivity.this, ThirdActivity.class));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -89,9 +81,9 @@ public class MainActivity extends AppCompatActivity {
                 // method to handle errors.
                 Log.d("errorhandling", String.valueOf(error));
                 if (error.toString().contains("AuthFailureError")) {
-                    Toast.makeText(MainActivity.this, "Wrong credentials", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, "Wrong credentials", Toast.LENGTH_LONG).show();
                 }
-                else Toast.makeText(MainActivity.this, "Request failed = " + error, Toast.LENGTH_LONG).show();
+                else Toast.makeText(RegisterActivity.this, "Request failed = " + error, Toast.LENGTH_LONG).show();
             }
         }) {
             @Override

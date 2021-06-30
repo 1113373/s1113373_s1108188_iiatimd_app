@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">iiatimd2021</string>
     <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="redirect_register">No account? Register</string>
     <string name="no_login">Continue</string>
     <string name="login_email">Email</string>
     <string name="login_password">Password</string>
