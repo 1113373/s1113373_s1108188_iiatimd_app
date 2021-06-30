@@ -19,6 +19,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     private TextView mTextViewResult;
     private RequestQueue mQueue;
@@ -42,8 +45,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void jsonParse() {
-        String url = "http://10.0.2.2:8000/api/data";
+        String url = "http://10.0.2.2:8000/api/data";//emulator
+         //normal url "http://127.0.0.1:8000/api/data";
+
+        ArrayList<String> kanji_data = new ArrayList<String>();
+        ArrayList<String> hiragana_data = new ArrayList<String>();
+        ArrayList<String> romaji_data = new ArrayList<String>();
+        ArrayList<String> english_data = new ArrayList<String>();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -58,7 +68,11 @@ public class MainActivity extends AppCompatActivity {
                                 String romaji = data.getString("romaji");
                                 String english = data.getString("english");
 
-                                mTextViewResult.append(kanji + ", " + hiragana + ", " + romaji + ", " + english + "\n\n");
+                                kanji_data.add(kanji);
+                                hiragana_data.add(kanji);
+                                romaji_data.add(kanji);
+                                english_data.add(kanji);
+                                mTextViewResult.append(kanji + ", " + hiragana + ", " + romaji + ", " + english + "\n");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -70,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
-
         mQueue.add(request);
     }
 }
