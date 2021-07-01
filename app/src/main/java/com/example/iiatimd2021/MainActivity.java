@@ -89,9 +89,9 @@ public class MainActivity extends AppCompatActivity {
                 // method to handle errors.
                 Log.d("errorhandling", String.valueOf(error));
                 if (error.toString().contains("AuthFailureError")) {
-                    Toast.makeText(MainActivity.this, "Wrong credentials", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Wrong credentials", Toast.LENGTH_SHORT).show();
                 }
-                else Toast.makeText(MainActivity.this, "Request failed = " + error, Toast.LENGTH_LONG).show();
+                else Toast.makeText(MainActivity.this, "Request failed = " + error, Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override

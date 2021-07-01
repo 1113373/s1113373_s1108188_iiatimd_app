@@ -30,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_register);
         Button buttonContinue = findViewById(R.id.button_continue);
         passwordText = findViewById(R.id.registerTextPassword);
         emailText = findViewById(R.id.registerTextEmail);
@@ -40,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (emailText.getText().toString().isEmpty() || passwordText.getText().toString().isEmpty()) {
-                    Toast.makeText(RegisterActivity.this, "Please enter a username and/or password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Please enter an email and/or password", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else if (!emailText.getText().toString().contains("@")) {
@@ -48,13 +48,14 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
                 postDataUsingVolley(emailText.getText().toString(), passwordText.getText().toString());
+                startActivity(new Intent(RegisterActivity.this, ThirdActivity.class));
             }
         });
 
         buttonContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RegisterActivity.this, ThirdActivity.class));
+                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
             }
         });
     }
@@ -81,9 +82,9 @@ public class RegisterActivity extends AppCompatActivity {
                 // method to handle errors.
                 Log.d("errorhandling", String.valueOf(error));
                 if (error.toString().contains("AuthFailureError")) {
-                    Toast.makeText(RegisterActivity.this, "Wrong credentials", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, "Wrong credentials", Toast.LENGTH_SHORT).show();
                 }
-                else Toast.makeText(RegisterActivity.this, "Request failed = " + error, Toast.LENGTH_LONG).show();
+                else Toast.makeText(RegisterActivity.this, "Request failed = " + error, Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
