@@ -14,7 +14,6 @@
         android:theme="@style/Theme.Iiatimd2021">
 
         <activity android:name=".MainActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,8 +21,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SecondActivity">
-
+        <activity android:name=".RegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
 
