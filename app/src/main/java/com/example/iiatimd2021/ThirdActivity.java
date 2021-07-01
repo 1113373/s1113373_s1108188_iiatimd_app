@@ -23,33 +23,34 @@ import java.util.Random;
 public class ThirdActivity extends android.app.Activity{
     private TextView mTextViewResult;
     private RequestQueue mQueue;
+    ArrayList<String> kanji_data = new ArrayList<String>();
+    ArrayList<String> hiragana_data = new ArrayList<String>();
+    ArrayList<String> romaji_data = new ArrayList<String>();
+    ArrayList<String> english_data = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
-
         mTextViewResult = findViewById(R.id.text_view_result);
         Button buttonParse = findViewById(R.id.button_parse);
-
         mQueue = Volley.newRequestQueue(this);
+
+        getDataUsingVolley();
 
         buttonParse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                jsonParse();
+                getRandomCharacter();
             }
         });
     }
 
-    private void jsonParse() {
+    private void getDataUsingVolley() {
         String url = "http://10.0.2.2:8000/api/data";//emulator
         //normal url "http://127.0.0.1:8000/api/data";
+        Log.d("test", "IK MAAK EEN API REQUEST!!!");
 
-        ArrayList<String> kanji_data = new ArrayList<String>();
-        ArrayList<String> hiragana_data = new ArrayList<String>();
-        ArrayList<String> romaji_data = new ArrayList<String>();
-        ArrayList<String> english_data = new ArrayList<String>();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
 
                 new Response.Listener<JSONObject>() {
@@ -61,23 +62,12 @@ public class ThirdActivity extends android.app.Activity{
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject data = jsonArray.getJSONObject(i);
 
-                                String kanji = data.getString("kanji");
-                                String hiragana = data.getString("hiragana");
-                                String romaji = data.getString("romaji");
-                                String english = data.getString("english");
-
-                                kanji_data.add(kanji);
-                                hiragana_data.add(hiragana);
-                                romaji_data.add(romaji);
-                                english_data.add(english);
+                                kanji_data.add(data.getString("kanji"));
+                                hiragana_data.add(data.getString("hiragana"));
+                                romaji_data.add(data.getString("romaji"));
+                                english_data.add(data.getString("english"));
                                 //mTextViewResult.append(kanji + ", " + hiragana + ", " + romaji + ", " + english + "\n\n");
-
                             }
-
-                            int n = new Random().nextInt(30);
-                            Log.d("random", String.valueOf(n));
-                            mTextViewResult.append(kanji_data.get(n) + ", " + hiragana_data.get(n) + ", " + romaji_data.get(n) + ", " + english_data.get(n) + "\n");
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -90,7 +80,13 @@ public class ThirdActivity extends android.app.Activity{
             }
         });
         mQueue.add(request);
+    }
 
+    private void getRandomCharacter() {
+        int n = new Random().nextInt(kanji_data.size());
+        Log.d("random", String.valueOf(n));
+        mTextViewResult.setText(kanji_data.get(n) + ", " + hiragana_data.get(n) + ", " + romaji_data.get(n) + ", " + english_data.get(n) + "\n");
+       // mTextViewResult.append(kanji_data.get(n) + ", " + hiragana_data.get(n) + ", " + romaji_data.get(n) + ", " + english_data.get(n) + "\n");
     }
 
 }

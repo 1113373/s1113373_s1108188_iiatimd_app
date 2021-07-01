@@ -48,7 +48,6 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
                 postDataUsingVolley(emailText.getText().toString(), passwordText.getText().toString());
-                startActivity(new Intent(RegisterActivity.this, ThirdActivity.class));
             }
         });
 
