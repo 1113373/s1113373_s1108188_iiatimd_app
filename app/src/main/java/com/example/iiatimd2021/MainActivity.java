@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //jsonParse();
-                startActivity(new Intent(MainActivity.this, ThirdActivity.class));
+                startActivity(new Intent(MainActivity.this, SecondActivity.class));
             }
         });
     }
