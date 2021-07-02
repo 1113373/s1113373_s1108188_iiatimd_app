@@ -83,6 +83,9 @@ public class RegisterActivity extends AppCompatActivity {
                 if (error.toString().contains("AuthFailureError")) {
                     Toast.makeText(RegisterActivity.this, "Wrong credentials", Toast.LENGTH_SHORT).show();
                 }
+                else if (error.toString().contains("ServerError")){
+                    Toast.makeText(RegisterActivity.this, "An unexpected error occurred, try again later", Toast.LENGTH_SHORT).show();
+                }
                 else Toast.makeText(RegisterActivity.this, "Request failed = " + error, Toast.LENGTH_SHORT).show();
             }
         }) {

@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 postDataUsingVolley(emailText.getText().toString(), passwordText.getText().toString());
             }
         });
