@@ -1,5 +1,4 @@
 <resources>
-    <!--  Text  -->
     <string name="app_name">iiatimd2021</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
@@ -11,10 +10,5 @@
     <string name="cardview_menuitem1">Start</string>
     <string name="cardview_menuitem2">Progress</string>
     <string name="cardview_menuitem3">Wordlist</string>
-
-    <!--  Styling Root  -->
-    <string name="cardview_width">100dp</string>
-    <string name="cardview_height">30dp</string>
-    <string name="cardview_fontsize">8sp</string>
 </resources>
 

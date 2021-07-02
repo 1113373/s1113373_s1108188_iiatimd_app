@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         buttonContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ThirdActivity.class));
+                startActivity(new Intent(MainActivity.this, SecondActivity.class));
             }
         });
 
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
                 try {
                     JSONObject respObj = new JSONObject(response);
-                    startActivity(new Intent(MainActivity.this, ThirdActivity.class));
+                    startActivity(new Intent(MainActivity.this, SecondActivity.class));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

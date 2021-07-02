@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cardview_width">300dp</dimen>
+    <dimen name="cardview_height">80dp</dimen>
+    <dimen name="cardview_fontsize">20sp</dimen>
+    <dimen name="title_size">30sp</dimen>
+</resources>
