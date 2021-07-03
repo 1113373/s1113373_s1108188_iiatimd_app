@@ -28,22 +28,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ThirdActivity extends android.app.Activity{
     private TextView mTextViewResult;
     private RequestQueue mQueue;
-//    ArrayList<String> kanji_data_api = new ArrayList<String>();
-//    ArrayList<String> hiragana_data_api = new ArrayList<String>();
-//    ArrayList<String> romaji_data_api = new ArrayList<String>();
-//    ArrayList<String> english_data_api = new ArrayList<String>();
     ArrayList<String> kanji_data_local = new ArrayList<String>();
     ArrayList<String> hiragana_data_local = new ArrayList<String>();
     ArrayList<String> romaji_data_local = new ArrayList<String>();
@@ -65,14 +55,12 @@ public class ThirdActivity extends android.app.Activity{
             //Log.d("internetCheck", "succes");
             Toast.makeText(ThirdActivity.this, "Internet connection found.", Toast.LENGTH_SHORT).show();
             getDataUsingVolley();
-            //Log.d("test meteen", kanji_data_local.toString());
             //DELAY TO PROCESS THE API CALL
             new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {
-                            updateLocalFiles();
+                            //updateLocalFiles();
                             readLocalFiles();
-                            Log.d("test 0.25 seconde later", kanji_data_local.toString());
                         }
                     }, 250);
 
@@ -98,55 +86,31 @@ public class ThirdActivity extends android.app.Activity{
         NetworkInfo nInfo = cm.getActiveNetworkInfo();
         hasInternetAcces = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
         //Log.d("internet test", String.valueOf(hasInternetAcces));
-
-    }
-
-
-
-    private void updateLocalFiles() {
-        //Log.d("kanji data", kanji_data_api.toString());
-//        writeToFile(kanji_data_api.toString(), "kanji.txt");
-//        writeToFile(hiragana_data_api.toString(), "hiragana.txt");
-//        writeToFile(romaji_data_api.toString(), "romaji.txt");
-//        writeToFile(english_data_api.toString(), "english.txt");
-        //Log.d()
-//        kanji_data_local.add(readFromFile("kanji.txt"));
-//        hiragana_data_local.add(readFromFile("hiragana.txt"));
-//        romaji_data_local.add(readFromFile("romaji.txt"));
-//        english_data_local.add(readFromFile("english.txt"));
-        //mTextViewResult.setText(romaji_data_local.get(0).toString());
     }
 
     private void readLocalFiles() {
-
         String splitKanjiList = readFromFile("kanji.txt");
+        String[] kanjiList = splitKanjiList.split("\\.");
+        String splitHiraganaList = readFromFile("hiragana.txt");
+        String[] hiraganaList = splitHiraganaList.split("\\.");
+        String splitRomajiList = readFromFile("romaji.txt");
+        String[] romajiList = splitRomajiList.split("\\.");
+        String splitEnglishList = readFromFile("english.txt");
+        String[] englishList = splitEnglishList.split("\\.");
 
-        String[] test = splitKanjiList.split("\\.");
-
-
-        for (int i = 0; i < test.length; i++){
-
-            Log.d("Hier is die gekke array", test[i]);
-            kanji_data_local.add(test[i]);
+        for (int i = 0; i < kanjiList.length; i++){
+            kanji_data_local.add(kanjiList[i]);
+            hiragana_data_local.add(hiraganaList[i]);
+            romaji_data_local.add(romajiList[i]);
+            english_data_local.add(englishList[i]);
         }
-
-
-//        kanji_data_local.add(readFromFile("kanji.txt"));
-        hiragana_data_local.add(readFromFile("hiragana.txt"));
-        romaji_data_local.add(readFromFile("romaji.txt"));
-        english_data_local.add(readFromFile("english.txt"));
-        //kanji_data_local = kanji_data_local.get(0);
-
-
-
     }
 
     private void writeToFile(String data, String fileName) {
         try {
             FileOutputStream fileOut = openFileOutput(fileName, MODE_PRIVATE);
             OutputStreamWriter outputStreamWriter=new OutputStreamWriter(fileOut);
-
-            Log.d("data write", data);
+            Log.d("writing data to:", fileName + " " + data);
             outputStreamWriter.write(data);
             outputStreamWriter.close();
             //Toast.makeText(getBaseContext(), "File saved successfully!", Toast.LENGTH_SHORT).show();
@@ -188,7 +152,7 @@ public class ThirdActivity extends android.app.Activity{
     private void getDataUsingVolley() {
         String url = "http://10.0.2.2:8000/api/data";//emulator
         //normal url "http://127.0.0.1:8000/api/data";
-        Log.d("api call", "api request here");
+        Log.d("api call", "api request called");
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
 
@@ -199,22 +163,28 @@ public class ThirdActivity extends android.app.Activity{
                             JSONArray jsonArray = response.getJSONArray("Data");
 
                             String kanjiList = "";
+                            String hiraganaList = "";
+                            String romajiList = "";
+                            String englishList = "";
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject data = jsonArray.getJSONObject(i);
-
-//                                String kanji = data.getString("kanji");
-
                                 kanjiList += data.getString("kanji");
                                 kanjiList += ".";
-//                                hiragana_data_api.add(data.getString("hiragana"));
-//                                romaji_data_api.add(data.getString("romaji"));
-//                                english_data_api.add(data.getString("english"));
-//                                mTextViewResult.append(kanji + "\n\n");
-                                hasInternetAcces = true;
+                                hiraganaList += data.getString("hiragana");
+                                hiraganaList += ".";
+                                romajiList += data.getString("romaji");
+                                romajiList += ".";
+                                englishList += data.getString("english");
+                                englishList += ".";
+
                             }
 
                             writeToFile(kanjiList, "kanji.txt");
+                            writeToFile(hiraganaList, "hiragana.txt");
+                            writeToFile(romajiList, "romaji.txt");
+                            writeToFile(englishList, "english.txt");
+                            hasInternetAcces = true;
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -233,7 +203,8 @@ public class ThirdActivity extends android.app.Activity{
     private void getRandomCharacter() {
         int n = new Random().nextInt(30);
         Log.d("random", String.valueOf(n));
-        mTextViewResult.setText(kanji_data_local.get(n));
+        mTextViewResult.setText(kanji_data_local.get(n) + "\n" + hiragana_data_local.get(n) + "\n" + romaji_data_local.get(n) + "\n" + english_data_local.get(n));
+        //mTextViewResult.setText(hiragana_data_local.get(n));
     }
 
 }
