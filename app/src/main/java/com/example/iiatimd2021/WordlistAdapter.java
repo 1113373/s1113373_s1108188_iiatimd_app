@@ -35,10 +35,10 @@ public class WordlistAdapter extends RecyclerView.Adapter<WordlistAdapter.Wordli
         String romajiText = currentItem.getRomaji();
         String englishText = currentItem.getEnglish();
 
-        holder.mTextViewKanji.setText(kanjiText);
-        holder.mTextViewHiragana.setText(hiraganaText);
-        holder.mTextViewRomaji.setText(romajiText);
-        holder.mTextViewEnglish.setText(englishText);
+        holder.mTextViewKanji.setText("Kanji: " + kanjiText);
+        holder.mTextViewHiragana.setText("Hiragana: " + hiraganaText);
+        holder.mTextViewRomaji.setText("Romaji: " + romajiText);
+        holder.mTextViewEnglish.setText("English: " + englishText);
     }
 
     @Override
