@@ -35,7 +35,7 @@ public class SecondActivity extends android.app.Activity {
             @Override
             public void onClick(View view) {
                 //jsonParse();
-                startActivity(new Intent(SecondActivity.this, ThirdActivity.class));
+                startActivity(new Intent(SecondActivity.this, WordlistActivity.class));
             }
         });
     }
