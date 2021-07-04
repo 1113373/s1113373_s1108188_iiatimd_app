@@ -37,6 +37,8 @@ public class SecondActivity extends android.app.Activity {
     public static ArrayList<String> romaji_data_local = new ArrayList<String>();
     public static ArrayList<String> english_data_local = new ArrayList<String>();
     boolean hasInternetAcces = false;
+    ThirdActivity randomNumber = new ThirdActivity();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +115,7 @@ public class SecondActivity extends android.app.Activity {
         String splitEnglishList = readFromFile("english.txt");
         String[] englishList = splitEnglishList.split("\\.");
 
-        for (int i = 0; i < kanjiList.length; i++) {
+        for (int i = 1; i < kanjiList.length; i++) {
             kanji_data_local.add(kanjiList[i]);
             hiragana_data_local.add(hiraganaList[i]);
             romaji_data_local.add(romajiList[i]);
