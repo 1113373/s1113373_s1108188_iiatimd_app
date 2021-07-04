@@ -34,16 +34,11 @@ import java.util.Random;
 
 public class ThirdActivity extends android.app.Activity {
     private TextView mTextViewResult;
-    private Button mAnswer1;
-    private Button mAnswer2;
-    private Button mAnswer3;
-    private Button mAnswer4;
+
 
     private static int[] answerArray = { R.id.answer1, R.id.answer2, R.id.answer3, R.id.answer4 };
     private Button[] button = new Button[answerArray.length];
     private TextView mTextViewCounter;
-
-
 
     private RequestQueue mQueue;
     ArrayList<String> kanji_data_local = new ArrayList<String>();
@@ -53,7 +48,8 @@ public class ThirdActivity extends android.app.Activity {
     boolean hasInternetAcces = false;
 
     int counter = 0;
-    int realAnswer = new Random().nextInt(4);
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +94,9 @@ public class ThirdActivity extends android.app.Activity {
                 getRandomCharacter();
             }
         });
+
+
+
 
 
 
@@ -228,8 +227,8 @@ public class ThirdActivity extends android.app.Activity {
 
 
     private void getRandomCharacter() {
-
         int n = new Random().nextInt(30);
+        int realAnswer = new Random().nextInt(4);
         Log.d("random", String.valueOf(n));
 
         mTextViewResult.setText(kanji_data_local.get(n) + "\n" + "\n" + romaji_data_local.get(n) + "\n" + english_data_local.get(n));
@@ -243,34 +242,41 @@ public class ThirdActivity extends android.app.Activity {
 
             button[i].setText(hiragana_data_local.get(a1));
 
-            text = (String) button[i].getText();
-            Log.d("answerArray: ", text);
+            button[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("Nice", "dit werkt");
+                }
+            });
 
-            
+
+
+
         }
-
-
         button[realAnswer].setText(hiragana_data_local.get(n));
-
-
+        Log.d("real answer", String.valueOf(realAnswer));
 
         String correct1 = (String) button[realAnswer].getText();
         String correct2 = hiragana_data_local.get(n);
 
-        if (correct1 == correct2){
-            button[realAnswer].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        button[realAnswer].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (correct1 == correct2) {
                     mTextViewCounter = findViewById(R.id.answer_counter);
                     getRandomCharacter();
                     counter += 1;
-                    String correctCounter = new Integer(counter).toString();
+                    String correctCounter = Integer.valueOf(counter).toString();
                     mTextViewCounter.setText(correctCounter);
                 }
-            });
-        }
 
+            }
+        });
 
     }
+
+
+
 
 }
