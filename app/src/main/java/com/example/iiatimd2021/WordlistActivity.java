@@ -37,43 +37,11 @@ public class WordlistActivity extends AppCompatActivity {
         mWordlist = new ArrayList<>();
 
         mRequestQueue = Volley.newRequestQueue(this);
-        parseJSON();
+        for (int i = 0; i <SecondActivity.kanji_data_local.size(); i++){
+            mWordlist.add(new WordlistItem(SecondActivity.kanji_data_local.get(i) , SecondActivity.hiragana_data_local.get(i), SecondActivity.romaji_data_local.get(i), SecondActivity.english_data_local.get(i)));
+        }
+        mWordlistAdapter = new WordlistAdapter(WordlistActivity.this, mWordlist);
+        mRecyclerView.setAdapter(mWordlistAdapter);
     }
 
-    private void parseJSON(){
-        String url = "http://10.0.2.2:8000/api/data";
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("Data");
-
-                            for (int i = 0; i < jsonArray.length(); i++){
-                                JSONObject data = jsonArray.getJSONObject(i);
-
-                                String kanji = data.getString("kanji");
-                                String hiragana = data.getString("hiragana");
-                                String romaji = data.getString("romaji");
-                                String english = data.getString("english");
-
-                                mWordlist.add(new WordlistItem(kanji , hiragana, romaji, english));
-                            }
-
-                            mWordlistAdapter = new WordlistAdapter(WordlistActivity.this, mWordlist);
-                            mRecyclerView.setAdapter(mWordlistAdapter);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } , new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-        mRequestQueue.add(request);
-    }
 }

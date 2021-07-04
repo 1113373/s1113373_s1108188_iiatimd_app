@@ -1,45 +1,24 @@
 package com.example.iiatimd2021;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.text.BreakIterator;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class ThirdActivity extends android.app.Activity {
     private TextView mTextViewResult;
+<<<<<<< HEAD
 
+=======
+>>>>>>> development-matt
 
     private static int[] answerArray = { R.id.answer1, R.id.answer2, R.id.answer3, R.id.answer4 };
     private Button[] button = new Button[answerArray.length];
     private TextView mTextViewCounter;
 
+<<<<<<< HEAD
     private RequestQueue mQueue;
     ArrayList<String> kanji_data_local = new ArrayList<String>();
     ArrayList<String> hiragana_data_local = new ArrayList<String>();
@@ -50,42 +29,17 @@ public class ThirdActivity extends android.app.Activity {
     int counter = 0;
 
 
+=======
+    int counter = 0;
+>>>>>>> development-matt
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
         mTextViewResult = findViewById(R.id.text_view_result);
         Button buttonParse = findViewById(R.id.button_parse);
-        checkInternetConnection();
-        mQueue = Volley.newRequestQueue(this);
-
-        //CHECK FOR INTERNET ACCES
-        if (hasInternetAcces) {
-            //GET API DATA IN LOCAL FILE
-            //Log.d("internetCheck", "succes");
-            Toast.makeText(ThirdActivity.this, "Internet connection found.", Toast.LENGTH_SHORT).show();
-            getDataUsingVolley();
-            //DELAY TO PROCESS THE API CALL
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            //updateLocalFiles();
-                            readLocalFiles();
-                        }
-                    }, 250);
-
-        }
-        //NO INTERNET NOTIFICATION
-        else {
-            Toast.makeText(ThirdActivity.this, "No internet connection found.", Toast.LENGTH_SHORT).show();
-            //Log.d("internetcheck", "failed");
-            readLocalFiles();
-        }
-
-
 
         buttonParse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +49,7 @@ public class ThirdActivity extends android.app.Activity {
             }
         });
 
+<<<<<<< HEAD
 
 
 
@@ -141,105 +96,27 @@ public class ThirdActivity extends android.app.Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+=======
+>>>>>>> development-matt
     }
-
-    private String readFromFile(String fileName) {
-
-        String result = "";
-
-        try {
-            InputStream inputStream = openFileInput(fileName);
-
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receivedString = "";
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ((receivedString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append("\n").append(receivedString);
-                }
-
-                inputStream.close();
-                result = stringBuilder.toString();
-            }
-        }
-        catch (FileNotFoundException e) {
-            Log.e("FileReader", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("FileReader", "Can not read file: " + e.toString());
-        }
-        //Log.d("result reader", result);
-        return result;
-    }
-
-    private void getDataUsingVolley() {
-        String url = "http://10.0.2.2:8000/api/data";//emulator
-        //normal url "http://127.0.0.1:8000/api/data";
-        Log.d("api call", "api request called");
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("Data");
-
-                            String kanjiList = "";
-                            String hiraganaList = "";
-                            String romajiList = "";
-                            String englishList = "";
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject data = jsonArray.getJSONObject(i);
-                                kanjiList += data.getString("kanji");
-                                kanjiList += ".";
-                                hiraganaList += data.getString("hiragana");
-                                hiraganaList += ".";
-                                romajiList += data.getString("romaji");
-                                romajiList += ".";
-                                englishList += data.getString("english");
-                                englishList += ".";
-
-                            }
-
-                            writeToFile(kanjiList, "kanji.txt");
-                            writeToFile(hiraganaList, "hiragana.txt");
-                            writeToFile(romajiList, "romaji.txt");
-                            writeToFile(englishList, "english.txt");
-                            hasInternetAcces = true;
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                hasInternetAcces = false;
-            }
-        });
-        mQueue.add(request);
-    }
-
-
 
     private void getRandomCharacter() {
         int n = new Random().nextInt(30);
         int realAnswer = new Random().nextInt(4);
         Log.d("random", String.valueOf(n));
+        String correct1 = "";
+        String correct2 = SecondActivity.hiragana_data_local.get(n);
+        int a2 = new Random().nextInt(SecondActivity.hiragana_data_local.size());
 
-        mTextViewResult.setText(kanji_data_local.get(n) + "\n" + "\n" + romaji_data_local.get(n) + "\n" + english_data_local.get(n));
+        mTextViewResult.setText(SecondActivity.kanji_data_local.get(n) + "\n" + "\n" + SecondActivity.romaji_data_local.get(n) + "\n" + SecondActivity.english_data_local.get(n));
         //mTextViewResult.setText(hiragana_data_local.get(n));
 
-        String text = "";
 
         for (int i = 0; i < answerArray.length; i++){
             button[i] = findViewById(answerArray[i]);
             int a1 = new Random().nextInt(30);
 
+<<<<<<< HEAD
             button[i].setText(hiragana_data_local.get(a1));
 
             button[i].setOnClickListener(new View.OnClickListener() {
@@ -248,22 +125,53 @@ public class ThirdActivity extends android.app.Activity {
                     Log.d("Nice", "dit werkt");
                 }
             });
+=======
+            button[i].setText(SecondActivity.hiragana_data_local.get(a1));
+>>>>>>> development-matt
 
+            button[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("Nice", "dit werkt");
+                }
+            });
 
+<<<<<<< HEAD
+=======
+            if (SecondActivity.hiragana_data_local.get(a1) == correct2){
+                if (a1 != a2){
+                    button[i].setText(SecondActivity.hiragana_data_local.get(a2));
+                }
+                else button[i].setText(SecondActivity.hiragana_data_local.get(a1+1));
+            }
+>>>>>>> development-matt
 
+        }
+        button[realAnswer].setText(SecondActivity.hiragana_data_local.get(n));
+        Log.d("real answer", String.valueOf(realAnswer));
 
+<<<<<<< HEAD
         }
         button[realAnswer].setText(hiragana_data_local.get(n));
         Log.d("real answer", String.valueOf(realAnswer));
+=======
+       correct1 = (String) button[realAnswer].getText();
+>>>>>>> development-matt
 
-        String correct1 = (String) button[realAnswer].getText();
-        String correct2 = hiragana_data_local.get(n);
+        String finalCorrect = correct1;
+        button[realAnswer].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+<<<<<<< HEAD
         button[realAnswer].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (correct1 == correct2) {
+=======
+                if (finalCorrect == correct2) {
+>>>>>>> development-matt
                     mTextViewCounter = findViewById(R.id.answer_counter);
                     getRandomCharacter();
                     counter += 1;
