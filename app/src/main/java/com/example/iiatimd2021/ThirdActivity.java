@@ -35,56 +35,59 @@ public class ThirdActivity extends android.app.Activity {
     }
 
     private void getRandomCharacter() {
-        int realAnswer = new Random().nextInt(answerArray.length);
-        int n = new Random().nextInt(SecondActivity.hiragana_data_local.size());
+        int n = new Random().nextInt(30);
+        int realAnswer = new Random().nextInt(4);
         Log.d("random", String.valueOf(n));
-        mTextViewResult.setText(SecondActivity.kanji_data_local.get(n) + "\n" + "\n" + SecondActivity.romaji_data_local.get(n) + "\n" + SecondActivity.english_data_local.get(n));
-        //mTextViewResult.setText(hiragana_data_local.get(n));
-        String text = "";
         String correct1 = "";
         String correct2 = SecondActivity.hiragana_data_local.get(n);
+        int a2 = new Random().nextInt(SecondActivity.hiragana_data_local.size());
+
+        mTextViewResult.setText(SecondActivity.kanji_data_local.get(n) + "\n" + "\n" + SecondActivity.romaji_data_local.get(n) + "\n" + SecondActivity.english_data_local.get(n));
+        //mTextViewResult.setText(hiragana_data_local.get(n));
 
 
         for (int i = 0; i < answerArray.length; i++){
             button[i] = findViewById(answerArray[i]);
-            int a1 = new Random().nextInt(SecondActivity.hiragana_data_local.size());
+            int a1 = new Random().nextInt(30);
+
             button[i].setText(SecondActivity.hiragana_data_local.get(a1));
-            text = (String) button[i].getText();
 
-            if (text == correct2) {
-                Log.d("testtest", "ER IS EEN DUBBELE");
-                int a2 = new Random().nextInt(SecondActivity.hiragana_data_local.size());
+            button[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("Nice", "dit werkt");
+                }
+            });
 
+            if (SecondActivity.hiragana_data_local.get(a1) == correct2){
                 if (a1 != a2){
                     button[i].setText(SecondActivity.hiragana_data_local.get(a2));
                 }
                 else button[i].setText(SecondActivity.hiragana_data_local.get(a1+1));
-
-                button[i].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.d("Nice", "dit werkt");
-                    }
-                });
             }
+
         }
-
         button[realAnswer].setText(SecondActivity.hiragana_data_local.get(n));
+        Log.d("real answer", String.valueOf(realAnswer));
 
-        correct1 = (String) button[realAnswer].getText();
+       correct1 = (String) button[realAnswer].getText();
 
-        if (correct1 == correct2){
-            button[realAnswer].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        String finalCorrect = correct1;
+        button[realAnswer].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (finalCorrect == correct2) {
                     mTextViewCounter = findViewById(R.id.answer_counter);
                     getRandomCharacter();
                     counter += 1;
-                    String correctCounter = Integer.toString(counter);
+                    String correctCounter = Integer.valueOf(counter).toString();
                     mTextViewCounter.setText(correctCounter);
                 }
-            });
-        }
+
+            }
+        });
+
     }
 
 }
