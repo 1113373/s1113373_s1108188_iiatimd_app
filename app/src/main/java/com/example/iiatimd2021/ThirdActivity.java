@@ -28,11 +28,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ThirdActivity extends android.app.Activity{
+public class ThirdActivity extends android.app.Activity {
     private TextView mTextViewResult;
+    private Button mAnswer1;
+    private Button mAnswer2;
+    private Button mAnswer3;
+    private Button mAnswer4;
+
+    private static int[] answerArray = { R.id.answer1, R.id.answer2, R.id.answer3, R.id.answer4 };
+    private Button[] button = new Button[answerArray.length];
+    private TextView mTextViewCounter;
+
+
+
     private RequestQueue mQueue;
     ArrayList<String> kanji_data_local = new ArrayList<String>();
     ArrayList<String> hiragana_data_local = new ArrayList<String>();
@@ -40,8 +52,13 @@ public class ThirdActivity extends android.app.Activity{
     ArrayList<String> english_data_local = new ArrayList<String>();
     boolean hasInternetAcces = false;
 
+    int counter = 0;
+    int realAnswer = new Random().nextInt(4);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
         mTextViewResult = findViewById(R.id.text_view_result);
@@ -72,6 +89,8 @@ public class ThirdActivity extends android.app.Activity{
             readLocalFiles();
         }
 
+
+
         buttonParse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,7 +98,13 @@ public class ThirdActivity extends android.app.Activity{
                 getRandomCharacter();
             }
         });
+
+
+
+
     }
+
+
 
     private void checkInternetConnection(){
         ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -200,11 +225,52 @@ public class ThirdActivity extends android.app.Activity{
         mQueue.add(request);
     }
 
+
+
     private void getRandomCharacter() {
+
         int n = new Random().nextInt(30);
         Log.d("random", String.valueOf(n));
-        mTextViewResult.setText(kanji_data_local.get(n) + "\n" + hiragana_data_local.get(n) + "\n" + romaji_data_local.get(n) + "\n" + english_data_local.get(n));
+
+        mTextViewResult.setText(kanji_data_local.get(n) + "\n" + "\n" + romaji_data_local.get(n) + "\n" + english_data_local.get(n));
         //mTextViewResult.setText(hiragana_data_local.get(n));
+
+        String text = "";
+
+        for (int i = 0; i < answerArray.length; i++){
+            button[i] = findViewById(answerArray[i]);
+            int a1 = new Random().nextInt(30);
+
+            button[i].setText(hiragana_data_local.get(a1));
+
+            text = (String) button[i].getText();
+            Log.d("answerArray: ", text);
+
+            
+        }
+
+
+        button[realAnswer].setText(hiragana_data_local.get(n));
+
+
+
+        String correct1 = (String) button[realAnswer].getText();
+        String correct2 = hiragana_data_local.get(n);
+
+        if (correct1 == correct2){
+            button[realAnswer].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mTextViewCounter = findViewById(R.id.answer_counter);
+                    getRandomCharacter();
+                    counter += 1;
+                    String correctCounter = new Integer(counter).toString();
+                    mTextViewCounter.setText(correctCounter);
+                }
+            });
+        }
+
+
     }
 
 }
