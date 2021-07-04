@@ -64,30 +64,6 @@ public class ThirdActivity extends android.app.Activity {
         String correct2 = SecondActivity.hiragana_data_local.get(n);
         int a2 = new Random().nextInt(SecondActivity.hiragana_data_local.size());
 
-        //Log.d("progress", String.valueOf(progressCounter));
-        if (counter == 30){
-//            File f = new File("progress.txt");
-////            if (f.exists() && f.)
-            Log.d("counter","30X GEDAAN");
-            sessionData = String.valueOf(counter) + "-" + String.valueOf(mistakeCounter);
-
-            String oldData = readFromFile("progress.txt");
-            if (oldData == ""){
-                oldData = "";
-            }
-
-            else if (oldData != null){
-                String[] oldDataSplit = oldData.split("-");
-                String data1 = String.valueOf(oldDataSplit[0]) + counter;
-                String data2 = String.valueOf(oldDataSplit[1]) + mistakeCounter;
-                sessionData = data1 + "-" + data2;
-            }
-
-            writeToFile((sessionData.toString()), "progress.txt");
-            Log.d("sessiondata", sessionData);
-            startActivity(new Intent(ThirdActivity.this, SecondActivity.class));
-        }
-
         mTextViewResult.setText(SecondActivity.kanji_data_local.get(n));
         //mTextViewResult.setText(hiragana_data_local.get(n));
 
@@ -140,6 +116,39 @@ public class ThirdActivity extends android.app.Activity {
             }
         });
 
+        if (counter == 1){
+            if (FileExists("progress.txt")) {
+                Log.d("bestaat", "bestand bestaat");
+            }
+            else {
+                Log.d("bestaat", "bestand bestaat niet");
+                writeToFile("", "progress.txt");
+            }
+            Log.d("counter","30X GEDAAN");
+            sessionData = String.valueOf(counter) + "-" + String.valueOf(mistakeCounter);
+
+            String oldData = readFromFile("progress.txt");
+            if (oldData == null){
+                oldData = "";
+            }
+
+//            else if (oldData != null){
+//                Log.d("oldData", oldData);
+//                String[] oldDataSplit = oldData.split("-");
+//                Log.d("olddatasplit", oldDataSplit[0]);
+//                String data = oldDataSplit[0];
+//                int data1 = Integer.parseInt(data);
+//                Log.d("data", String.valueOf(data));
+//                int newData1 =  data1 + counter;
+//                //oldDataSplit[1] += mistakeCounter;
+//                //sessionData = String.valueOf(oldDataSplit[0])+ "-" + String.valueOf(oldDataSplit[1]);
+//            }
+
+            writeToFile((sessionData.toString()), "progress.txt");
+            Log.d("sessiondata", sessionData);
+
+            startActivity(new Intent(ThirdActivity.this, SecondActivity.class));
+        }
     }
 
     public String readFromFile(String fileName) {
@@ -182,6 +191,11 @@ public class ThirdActivity extends android.app.Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean FileExists(String fname) {
+        File file = getBaseContext().getFileStreamPath(fname);
+        return file.exists();
     }
 
 }
