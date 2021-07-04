@@ -39,7 +39,6 @@ public class SecondActivity extends android.app.Activity {
     boolean hasInternetAcces = false;
     ThirdActivity randomNumber = new ThirdActivity();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +84,7 @@ public class SecondActivity extends android.app.Activity {
             @Override
             public void onClick(View view) {
                 //jsonParse();
-                startActivity(new Intent(SecondActivity.this, ThirdActivity.class));
+                startActivity(new Intent(SecondActivity.this, ProgressActivity.class));
             }
         });
 
@@ -136,7 +135,7 @@ public class SecondActivity extends android.app.Activity {
         }
     }
 
-    private String readFromFile(String fileName) {
+    public String readFromFile(String fileName) {
 
         String result = "";
 

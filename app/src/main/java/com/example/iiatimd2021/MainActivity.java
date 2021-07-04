@@ -92,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
                 if (error.toString().contains("AuthFailureError")) {
                     Toast.makeText(MainActivity.this, "Wrong credentials", Toast.LENGTH_SHORT).show();
                 }
+                else if (error.toString().contains("NoConnectionError")) {
+                    Toast.makeText(MainActivity.this, "Failed to connect to the database", Toast.LENGTH_SHORT).show();
+                }
                 else Toast.makeText(MainActivity.this, "Request failed = " + error, Toast.LENGTH_SHORT).show();
             }
         }) {
