@@ -6,7 +6,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.example.iiatimd2021"
+        applicationId "com.example.kanjilearn"
         minSdkVersion 22
         targetSdkVersion 30
         versionCode 1

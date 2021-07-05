@@ -1,4 +1,4 @@
-package com.example.iiatimd2021;
+package com.example.learnkanji;
 
 public class ProgressItem {
     private int mMistakesTotal;

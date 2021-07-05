@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">iiatimd2021</string>
+    <string name="app_name">Learn Kanji</string>
 
     <!--Main_activity   -->
     <string name="login">Login</string>

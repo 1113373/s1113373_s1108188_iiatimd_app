@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.iiatimd2021">
+    package="com.example.learnkanji">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Iiatimd2021">
 
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.learnkanji.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".RegisterActivity">
+        <activity android:name="com.example.learnkanji.RegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
 
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SecondActivity">
+        <activity android:name="com.example.learnkanji.SecondActivity">
 
         <intent-filter>
             <action android:name="android.intent.action.DEFAULT" />
@@ -39,7 +39,7 @@
         </intent-filter>
         </activity>
 
-        <activity android:name=".ThirdActivity">
+        <activity android:name="com.example.learnkanji.ThirdActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -48,7 +48,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".WordlistActivity">
+        <activity android:name="com.example.learnkanji.WordlistActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
@@ -57,7 +57,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ProgressActivity">
+        <activity android:name="com.example.learnkanji.ProgressActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
