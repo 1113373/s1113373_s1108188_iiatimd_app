@@ -1,4 +1,4 @@
-package com.example.iiatimd2021;
+package com.example.learnkanji;
 
 import android.content.Context;
 import android.view.LayoutInflater;
