@@ -27,12 +27,15 @@ public class ProgressActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         String splitMistakeList = readFromFile("mistakes.txt");
         String[] mistakeList = splitMistakeList.split("\\|");
-        mistakeArray.addAll(Arrays.asList(mistakeList));
+
         String splitCorrectList = readFromFile("correct.txt");
         String[] correctList = splitCorrectList.split("\\|");
-        correctArray.addAll(Arrays.asList(correctList));
+
         String splitDateList = readFromFile("date.txt");
         String[] dateList = splitDateList.split("\\|");
+
+        mistakeArray.addAll(Arrays.asList(mistakeList));
+        correctArray.addAll(Arrays.asList(correctList));
         dateArray.addAll(Arrays.asList(dateList));
 
         super.onCreate(savedInstanceState);
@@ -45,9 +48,17 @@ public class ProgressActivity extends AppCompatActivity {
         mProgress = new ArrayList<>();
 
 
-//        for (int i = 0; i <SecondActivity.kanji_data_local.size(); i++){
-//
-//        }
+        for (int i = 1; i < dateArray.size(); i++){
+
+            double sum = new Integer(mistakeArray.get(i)) + new Integer(correctArray.get(i));
+            double correct = new Integer(correctArray.get(i));
+            double percentage = (correct / sum) * 100;
+            long percentageRound = Math.round(percentage);
+            String roundedPercentage = String.valueOf(percentageRound);
+
+            mProgress.add(new ProgressItem(mistakeArray.get(i), roundedPercentage , dateArray.get(i)));
+        }
+
         mProgressAdapter = new ProgressAdapter(ProgressActivity.this, mProgress);
         mRecyclerView2.setAdapter(mProgressAdapter);
     }

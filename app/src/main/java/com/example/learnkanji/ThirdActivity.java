@@ -47,6 +47,7 @@ public class ThirdActivity extends android.app.Activity {
         TextView startRomaji = findViewById(R.id.start_romaji);
         TextView progressText = findViewById(R.id.counter_text);
         TextView progressCounter = findViewById(R.id.answer_counter);
+        TextView counterLimit = findViewById(R.id.counter_limit);
 
         buttonStart.setOnClickListener(view -> {
             getRandomCharacter();
@@ -54,7 +55,7 @@ public class ThirdActivity extends android.app.Activity {
             startTitle.setVisibility(View.INVISIBLE);
             startRomaji.setVisibility(View.INVISIBLE);
 
-
+            counterLimit.setVisibility(View.VISIBLE);
             answer1.setVisibility(View.VISIBLE);
             answer2.setVisibility(View.VISIBLE);
             answer3.setVisibility(View.VISIBLE);

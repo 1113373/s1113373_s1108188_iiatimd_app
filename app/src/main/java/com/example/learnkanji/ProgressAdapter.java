@@ -29,9 +29,9 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
     public void onBindViewHolder(ProgressAdapter.ProgressViewHolder holder, int position) {
         ProgressItem currentItem = mProgress.get(position);
 
-        int mistakesText = currentItem.getMistakesTotal();
-        double percentageText = currentItem.getMistakesPercentage();
-        int dateText = currentItem.getDateQuiz();
+        String mistakesText = currentItem.getMistakesTotal();
+        String percentageText = currentItem.getMistakesPercentage();
+        String dateText = currentItem.getDateQuiz();
 
         holder.mTextViewMistakes.setText("Mistakes: " + mistakesText);
         holder.mTextViewPercentage.setText("Mistakes %: " + percentageText);

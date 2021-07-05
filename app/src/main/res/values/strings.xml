@@ -24,6 +24,7 @@
     <string name="start_romaji">Hajime</string>
     <string name="counter_title">Progress:</string>
     <string name="counter_text">0</string>
+    <string name="counter_limit">/ 30</string>
 
     <!--Wordlist_activity-->
     <string name="kanji">Kanji</string>
