@@ -74,7 +74,7 @@ public class ThirdActivity extends android.app.Activity {
             button[i].setText(SecondActivity.hiragana_data_local.get(a1));
 
             button[i].setOnClickListener(view -> {
-                Log.d("Nice", "dit werkt");
+                //Log.d("Nice", "dit werkt");
                 Context contextWrong = getApplicationContext();
                 CharSequence wrong = "Wrong Answer!";
                 int duration = Toast.LENGTH_SHORT;

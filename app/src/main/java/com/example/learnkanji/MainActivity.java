@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         buttonContinue.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, SecondActivity.class)));
-
         buttonRegister.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, RegisterActivity.class)));
     }
 

@@ -33,9 +33,9 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
         double percentageText = currentItem.getMistakesPercentage();
         int dateText = currentItem.getDateQuiz();
 
-        holder.mTextViewMistakes.setText("Kanji: " + mistakesText);
-        holder.mTextViewPercentage.setText("Hiragana: " + percentageText);
-        holder.mTextViewDate.setText("Romaji: " + dateText);
+        holder.mTextViewMistakes.setText("Mistakes: " + mistakesText);
+        holder.mTextViewPercentage.setText("Mistakes %: " + percentageText);
+        holder.mTextViewDate.setText("Date: " + dateText);
     }
 
     @Override
