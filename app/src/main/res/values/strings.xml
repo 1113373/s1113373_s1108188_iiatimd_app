@@ -7,8 +7,14 @@
     <string name="login_email">Email</string>
     <string name="login_password">Password</string>
     <string name="title">Learn Kanji</string>
+    <string name="title2">漢字を学ぶ</string>
     <string name="cardview_menuitem1">Start</string>
     <string name="cardview_menuitem2">Progress</string>
     <string name="cardview_menuitem3">Wordlist</string>
+
+    <string name="kanji">Kanji</string>
+    <string name="hiragana">Hiragana</string>
+    <string name="romaji">Romaji</string>
+    <string name="english">English</string>
 </resources>
 

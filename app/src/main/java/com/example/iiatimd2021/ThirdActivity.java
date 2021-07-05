@@ -10,13 +10,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 
 public class ThirdActivity extends android.app.Activity {
@@ -27,6 +29,14 @@ public class ThirdActivity extends android.app.Activity {
     private TextView mTextViewCounter;
     private String sessionData = "";
 
+
+    public static ArrayList<Integer> counter_data_local = new ArrayList<>();
+    public static ArrayList<Integer> mistake_data_local = new ArrayList<>();
+    public static ArrayList<String> date_data_local = new ArrayList<>();
+
+    private static final String FILE_NAME= "progress.txt";
+
+    private String date;
     int counter = 0;
     int mistakeCounter = 0;
 
@@ -41,6 +51,9 @@ public class ThirdActivity extends android.app.Activity {
         Button answer3 = findViewById(R.id.answer3);
         Button answer4 = findViewById(R.id.answer4);
 
+
+
+
         buttonParse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,6 +64,10 @@ public class ThirdActivity extends android.app.Activity {
                 answer2.setVisibility(View.VISIBLE);
                 answer3.setVisibility(View.VISIBLE);
                 answer4.setVisibility(View.VISIBLE);
+                Calendar calendar = Calendar.getInstance();
+                date = DateFormat.getDateTimeInstance().format(calendar.getTime());
+
+
             }
         });
     }
@@ -182,6 +199,23 @@ public class ThirdActivity extends android.app.Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void save(String data){
+        FileOutputStream fos = null;
+
+        try {
+            fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
+            fos.write(date.getBytes());
+            fos.write(counter);
+            fos.write(mistakeCounter);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 }
