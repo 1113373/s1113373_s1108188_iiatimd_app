@@ -1,38 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
+    android:layout_width="match_parent"
     android:layout_height="150dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="8dp"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="125dp"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:layout_gravity="center">
 
         <TextView
             android:id="@+id/mistakes_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kanji"
+            android:text="@string/mistakes"
             android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textSize="@dimen/progress_size" />
 
         <TextView
             android:id="@+id/percentage_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hiragana"
-            android:textColor="@android:color/black" />
+            android:text="@string/percentage"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/progress_size"/>
 
         <TextView
             android:id="@+id/date_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Romaji"
-            android:textColor="@android:color/black" />
+            android:text="@string/Date"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/progress_size"/>
 
     </LinearLayout>
 

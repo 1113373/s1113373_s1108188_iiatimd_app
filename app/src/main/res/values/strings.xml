@@ -31,5 +31,10 @@
     <string name="hiragana">Hiragana</string>
     <string name="romaji">Romaji</string>
     <string name="english">English</string>
+
+    <!--Progress_activity-->
+    <string name="mistakes">Mistakes</string>
+    <string name="percentage">Percentage</string>
+    <string name="Date">Date</string>
 </resources>
 
