@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -32,12 +31,11 @@ import java.util.ArrayList;
 
 public class SecondActivity extends android.app.Activity {
     private RequestQueue mQueue;
-    public static ArrayList<String> kanji_data_local = new ArrayList<String>();
-    public static ArrayList<String> hiragana_data_local = new ArrayList<String>();
-    public static ArrayList<String> romaji_data_local = new ArrayList<String>();
-    public static ArrayList<String> english_data_local = new ArrayList<String>();
+    public static ArrayList<String> kanji_data_local = new ArrayList<>();
+    public static ArrayList<String> hiragana_data_local = new ArrayList<>();
+    public static ArrayList<String> romaji_data_local = new ArrayList<>();
+    public static ArrayList<String> english_data_local = new ArrayList<>();
     boolean hasInternetAcces = false;
-    ThirdActivity randomNumber = new ThirdActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +51,7 @@ public class SecondActivity extends android.app.Activity {
         if (hasInternetAcces) {
             //GET API DATA IN LOCAL FILE
             Log.d("internetCheck", "succes");
-            Toast.makeText(SecondActivity.this, "Internet connection found.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(SecondActivity.this, "Internet connection found.", Toast.LENGTH_SHORT).show();
             getDataUsingVolley();
             //DELAY TO PROCESS THE API CALL
             new android.os.Handler().postDelayed(
@@ -67,33 +65,24 @@ public class SecondActivity extends android.app.Activity {
         }
         //NO INTERNET NOTIFICATION
         else {
-            Toast.makeText(SecondActivity.this, "No internet connection found.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SecondActivity.this, "No internet connection found, local files will be used", Toast.LENGTH_SHORT).show();
             //Log.d("internetcheck", "failed");
             readLocalFiles();
         }
 
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //jsonParse();
-                startActivity(new Intent(SecondActivity.this, ThirdActivity.class));
-            }
+        start.setOnClickListener(view -> {
+            //jsonParse();
+            startActivity(new Intent(SecondActivity.this, ThirdActivity.class));
         });
 
-        progress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //jsonParse();
-                startActivity(new Intent(SecondActivity.this, ProgressActivity.class));
-            }
+        progress.setOnClickListener(view -> {
+            //jsonParse();
+            startActivity(new Intent(SecondActivity.this, ProgressActivity.class));
         });
 
-        wordlist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //jsonParse();
-                startActivity(new Intent(SecondActivity.this, WordlistActivity.class));
-            }
+        wordlist.setOnClickListener(view -> {
+            //jsonParse();
+            startActivity(new Intent(SecondActivity.this, WordlistActivity.class));
         });
     }
 
@@ -145,7 +134,7 @@ public class SecondActivity extends android.app.Activity {
             if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receivedString = "";
+                String receivedString;
                 StringBuilder stringBuilder = new StringBuilder();
 
                 while ((receivedString = bufferedReader.readLine()) != null) {
@@ -171,38 +160,35 @@ public class SecondActivity extends android.app.Activity {
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
 
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("Data");
+                response -> {
+                    try {
+                        JSONArray jsonArray = response.getJSONArray("Data");
 
-                            String kanjiList = "";
-                            String hiraganaList = "";
-                            String romajiList = "";
-                            String englishList = "";
+                        String kanjiList = "";
+                        String hiraganaList = "";
+                        String romajiList = "";
+                        String englishList = "";
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject data = jsonArray.getJSONObject(i);
-                                kanjiList += data.getString("kanji");
-                                kanjiList += ".";
-                                hiraganaList += data.getString("hiragana");
-                                hiraganaList += ".";
-                                romajiList += data.getString("romaji");
-                                romajiList += ".";
-                                englishList += data.getString("english");
-                                englishList += ".";
-                            }
-
-                            writeToFile(kanjiList, "kanji.txt");
-                            writeToFile(hiraganaList, "hiragana.txt");
-                            writeToFile(romajiList, "romaji.txt");
-                            writeToFile(englishList, "english.txt");
-                            hasInternetAcces = true;
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject data = jsonArray.getJSONObject(i);
+                            kanjiList += data.getString("kanji");
+                            kanjiList += ".";
+                            hiraganaList += data.getString("hiragana");
+                            hiraganaList += ".";
+                            romajiList += data.getString("romaji");
+                            romajiList += ".";
+                            englishList += data.getString("english");
+                            englishList += ".";
                         }
+
+                        writeToFile(kanjiList, "kanji.txt");
+                        writeToFile(hiraganaList, "hiragana.txt");
+                        writeToFile(romajiList, "romaji.txt");
+                        writeToFile(englishList, "english.txt");
+                        hasInternetAcces = true;
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }, new Response.ErrorListener() {
             @Override

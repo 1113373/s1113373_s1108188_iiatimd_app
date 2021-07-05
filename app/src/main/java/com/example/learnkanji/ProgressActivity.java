@@ -28,7 +28,6 @@ public class ProgressActivity extends AppCompatActivity {
 
         mProgress = new ArrayList<>();
 
-        mRequestQueue = Volley.newRequestQueue(this);
         for (int i = 0; i <SecondActivity.kanji_data_local.size(); i++){
 
         }

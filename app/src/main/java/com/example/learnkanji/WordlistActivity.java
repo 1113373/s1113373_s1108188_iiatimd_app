@@ -28,7 +28,6 @@ public class WordlistActivity extends AppCompatActivity {
 
         mWordlist = new ArrayList<>();
 
-        mRequestQueue = Volley.newRequestQueue(this);
         for (int i = 0; i <SecondActivity.kanji_data_local.size(); i++){
             mWordlist.add(new WordlistItem(SecondActivity.kanji_data_local.get(i) , SecondActivity.hiragana_data_local.get(i), SecondActivity.romaji_data_local.get(i), SecondActivity.english_data_local.get(i)));
         }
