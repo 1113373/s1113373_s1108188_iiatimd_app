@@ -52,8 +52,8 @@ public class SecondActivity extends android.app.Activity {
         //CHECK FOR INTERNET ACCES
         if (hasInternetAcces) {
             //GET API DATA IN LOCAL FILE
-            //Log.d("internetCheck", "succes");
-            //Toast.makeText(SecondActivity.this, "Internet connection found.", Toast.LENGTH_SHORT).show();
+            Log.d("internetCheck", "succes");
+            Toast.makeText(SecondActivity.this, "Internet connection found.", Toast.LENGTH_SHORT).show();
             getDataUsingVolley();
             //DELAY TO PROCESS THE API CALL
             new android.os.Handler().postDelayed(
@@ -101,7 +101,7 @@ public class SecondActivity extends android.app.Activity {
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo nInfo = cm.getActiveNetworkInfo();
         hasInternetAcces = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
-        //Log.d("internet test", String.valueOf(hasInternetAcces));
+        Log.d("internet test", String.valueOf(hasInternetAcces));
     }
 
     private void readLocalFiles() {
@@ -192,7 +192,6 @@ public class SecondActivity extends android.app.Activity {
                                 romajiList += ".";
                                 englishList += data.getString("english");
                                 englishList += ".";
-
                             }
 
                             writeToFile(kanjiList, "kanji.txt");
