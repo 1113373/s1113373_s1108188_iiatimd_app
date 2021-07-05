@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
 
@@ -15,7 +14,6 @@ public class WordlistActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private WordlistAdapter mWordlistAdapter;
     private ArrayList<WordlistItem> mWordlist;
-    private RequestQueue mRequestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

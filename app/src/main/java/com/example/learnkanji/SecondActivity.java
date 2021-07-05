@@ -50,17 +50,12 @@ public class SecondActivity extends android.app.Activity {
         //CHECK FOR INTERNET ACCES
         if (hasInternetAcces) {
             //GET API DATA IN LOCAL FILE
-            Log.d("internetCheck", "succes");
+            Log.d("internetCheck", "success");
             //Toast.makeText(SecondActivity.this, "Internet connection found.", Toast.LENGTH_SHORT).show();
             getDataUsingVolley();
             //DELAY TO PROCESS THE API CALL
             new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            //updateLocalFiles();
-                            readLocalFiles();
-                        }
-                    }, 250);
+                    this::readLocalFiles, 250);
 
         }
         //NO INTERNET NOTIFICATION
@@ -71,17 +66,14 @@ public class SecondActivity extends android.app.Activity {
         }
 
         start.setOnClickListener(view -> {
-            //jsonParse();
             startActivity(new Intent(SecondActivity.this, ThirdActivity.class));
         });
 
         progress.setOnClickListener(view -> {
-            //jsonParse();
             startActivity(new Intent(SecondActivity.this, ProgressActivity.class));
         });
 
         wordlist.setOnClickListener(view -> {
-            //jsonParse();
             startActivity(new Intent(SecondActivity.this, WordlistActivity.class));
         });
     }
@@ -118,7 +110,6 @@ public class SecondActivity extends android.app.Activity {
             Log.d("writing data to:", fileName + " " + data);
             outputStreamWriter.write(data);
             outputStreamWriter.close();
-            //Toast.makeText(getBaseContext(), "File saved successfully!", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -149,7 +140,6 @@ public class SecondActivity extends android.app.Activity {
         } catch (IOException e) {
             Log.e("FileReader", "Can not read file: " + e.toString());
         }
-        //Log.d("result reader", result);
         return result;
     }
 
@@ -171,14 +161,10 @@ public class SecondActivity extends android.app.Activity {
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject data = jsonArray.getJSONObject(i);
-                            kanjiList += data.getString("kanji");
-                            kanjiList += ".";
-                            hiraganaList += data.getString("hiragana");
-                            hiraganaList += ".";
-                            romajiList += data.getString("romaji");
-                            romajiList += ".";
-                            englishList += data.getString("english");
-                            englishList += ".";
+                            kanjiList += data.getString("kanji") + ".";
+                            hiraganaList += data.getString("hiragana") + ".";
+                            romajiList += data.getString("romaji") + ".";
+                            englishList += data.getString("english") + ".";
                         }
 
                         writeToFile(kanjiList, "kanji.txt");

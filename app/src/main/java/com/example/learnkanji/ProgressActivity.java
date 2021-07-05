@@ -7,9 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -48,9 +45,9 @@ public class ProgressActivity extends AppCompatActivity {
         mProgress = new ArrayList<>();
 
 
-        for (int i = 0; i <SecondActivity.kanji_data_local.size(); i++){
-
-        }
+//        for (int i = 0; i <SecondActivity.kanji_data_local.size(); i++){
+//
+//        }
         mProgressAdapter = new ProgressAdapter(ProgressActivity.this, mProgress);
         mRecyclerView2.setAdapter(mProgressAdapter);
     }

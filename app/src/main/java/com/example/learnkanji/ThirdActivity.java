@@ -27,7 +27,6 @@ public class ThirdActivity extends android.app.Activity {
     private static int[] answerArray = {R.id.answer1, R.id.answer2, R.id.answer3, R.id.answer4};
     private Button[] button = new Button[answerArray.length];
     private TextView mTextViewCounter;
-    String mistakeList;
 
     int counter = 0;
     int mistakeCounter = 0;
@@ -44,7 +43,6 @@ public class ThirdActivity extends android.app.Activity {
         Button answer4 = findViewById(R.id.answer4);
 
         buttonParse.setOnClickListener(view -> {
-            //Log.d("kanji test", kanji_data_local.toString());
             getRandomCharacter();
             buttonParse.setVisibility(View.INVISIBLE);
             answer1.setVisibility(View.VISIBLE);
@@ -58,14 +56,11 @@ public class ThirdActivity extends android.app.Activity {
     public void getRandomCharacter() {
         int n = new Random().nextInt(30);
         int realAnswer = new Random().nextInt(4);
-        //Log.d("random", String.valueOf(n));
         String correct1;
         String correct2 = SecondActivity.hiragana_data_local.get(n);
         int a2 = new Random().nextInt(SecondActivity.hiragana_data_local.size());
 
         mTextViewResult.setText(SecondActivity.kanji_data_local.get(n));
-        //mTextViewResult.setText(hiragana_data_local.get(n));
-
 
         for (int i = 0; i < answerArray.length; i++) {
             button[i] = findViewById(answerArray[i]);
@@ -74,7 +69,6 @@ public class ThirdActivity extends android.app.Activity {
             button[i].setText(SecondActivity.hiragana_data_local.get(a1));
 
             button[i].setOnClickListener(view -> {
-                //Log.d("Nice", "dit werkt");
                 Context contextWrong = getApplicationContext();
                 CharSequence wrong = "Wrong Answer!";
                 int duration = Toast.LENGTH_SHORT;
@@ -91,10 +85,7 @@ public class ThirdActivity extends android.app.Activity {
 
         }
         button[realAnswer].setText(SecondActivity.hiragana_data_local.get(n));
-        Log.d("real answer", String.valueOf(realAnswer));
-
         correct1 = (String) button[realAnswer].getText();
-
         String finalCorrect = correct1;
         button[realAnswer].setOnClickListener(view -> {
 
@@ -114,21 +105,15 @@ public class ThirdActivity extends android.app.Activity {
             Calendar calendar = Calendar.getInstance();
             date = DateFormat.getDateTimeInstance().format(calendar.getTime());
             if (FileExists("mistakes.txt")) {
-                Log.d("bestaat", "bestanden bestaan");
-
                 String oldMistakes = readFromFile("mistakes.txt");
                 String oldCorrect = readFromFile("correct.txt");
                 String oldDate = readFromFile("date.txt");
                 Log.d("oldMistakes", oldMistakes);
                 counter++;
-
                 writeToFile(oldMistakes + mistakeCounter + "|", "mistakes.txt");
                 writeToFile(oldCorrect + counter + "|", "correct.txt");
                 writeToFile(oldDate + date + "|", "date.txt");
-
-                Log.d("test2", String.valueOf(mistakeList));
             } else {
-                Log.d("bestaat", "bestanden bestaan niet");
                 writeToFile(mistakeCounter + "|", "mistakes.txt");
                 writeToFile(counter + "|", "correct.txt");
                 writeToFile(date + "|", "date.txt");
@@ -138,7 +123,6 @@ public class ThirdActivity extends android.app.Activity {
     }
 
     public String readFromFile(String fileName) {
-
         String result = "";
 
         try {
@@ -162,7 +146,6 @@ public class ThirdActivity extends android.app.Activity {
         } catch (IOException e) {
             Log.e("FileReader", "Can not read file: " + e.toString());
         }
-        //Log.d("result reader", result);
         return result;
     }
 
@@ -173,7 +156,6 @@ public class ThirdActivity extends android.app.Activity {
             Log.d("writing data to:", fileName + " " + data);
             outputStreamWriter.write(data);
             outputStreamWriter.close();
-            //Toast.makeText(getBaseContext(), "File saved successfully!", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
         }

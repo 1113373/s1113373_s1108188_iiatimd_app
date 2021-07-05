@@ -46,9 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
             postDataUsingVolley(emailText.getText().toString(), passwordText.getText().toString());
         });
 
-        buttonContinue.setOnClickListener(view -> startActivity(new Intent(
-                RegisterActivity.this, MainActivity.class)
-        ));
+        buttonContinue.setOnClickListener(view -> startActivity(new Intent(RegisterActivity.this, MainActivity.class)));
     }
 
     private void postDataUsingVolley(String email, String password) {
@@ -80,7 +78,6 @@ public class RegisterActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("email", email);
                 params.put("password", password);
-
                 return params;
             }
         };
