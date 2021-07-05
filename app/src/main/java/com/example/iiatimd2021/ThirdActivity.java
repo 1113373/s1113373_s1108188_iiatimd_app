@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -45,25 +47,39 @@ public class ThirdActivity extends android.app.Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_third);
         mTextViewResult = findViewById(R.id.text_view_result);
-        Button buttonParse = findViewById(R.id.button_parse);
+        Button buttonStart = findViewById(R.id.button_start);
         Button answer1 = findViewById(R.id.answer1);
         Button answer2 = findViewById(R.id.answer2);
         Button answer3 = findViewById(R.id.answer3);
         Button answer4 = findViewById(R.id.answer4);
+        TextView startTitle = findViewById(R.id.start_title);
+        TextView startRomaji = findViewById(R.id.start_romaji);
+        TextView counterText = findViewById(R.id.counter_text);
+        TextView answerCounter = findViewById(R.id.answer_counter);
 
 
 
 
-        buttonParse.setOnClickListener(new View.OnClickListener() {
+        buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Log.d("kanji test", kanji_data_local.toString());
-                getRandomCharacter();
-                buttonParse.setVisibility(View.INVISIBLE);
+
+                buttonStart.setVisibility(View.INVISIBLE);
+
+                startTitle.setVisibility(View.INVISIBLE);
+                startRomaji.setVisibility(View.INVISIBLE);
+
                 answer1.setVisibility(View.VISIBLE);
                 answer2.setVisibility(View.VISIBLE);
                 answer3.setVisibility(View.VISIBLE);
                 answer4.setVisibility(View.VISIBLE);
+                counterText.setVisibility(View.VISIBLE);
+                answerCounter.setVisibility(View.VISIBLE);
+
+                getRandomCharacter();
+
+
                 Calendar calendar = Calendar.getInstance();
                 date = DateFormat.getDateTimeInstance().format(calendar.getTime());
 

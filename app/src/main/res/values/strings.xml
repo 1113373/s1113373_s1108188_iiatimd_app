@@ -1,17 +1,31 @@
 <resources>
     <string name="app_name">iiatimd2021</string>
+
+    <!--Main_activity   -->
     <string name="login">Login</string>
     <string name="register">Register</string>
-    <string name="redirect_register">No account? Register</string>
-    <string name="no_login">Continue</string>
+    <string name="no_login">Continue without login</string>
     <string name="login_email">Email</string>
     <string name="login_password">Password</string>
+
+    <!--Register_activity-->
+    <string name="return_text">return</string>
+
+    <!--Second_activity   -->
     <string name="title">Learn Kanji</string>
     <string name="title2">漢字を学ぶ</string>
     <string name="cardview_menuitem1">Start</string>
     <string name="cardview_menuitem2">Progress</string>
     <string name="cardview_menuitem3">Wordlist</string>
 
+    <!--Third_activity  -->
+    <string name="start_button">Start</string>
+    <string name="start_title">始め</string>
+    <string name="start_romaji">Hajime</string>
+    <string name="counter_title">Progress:</string>
+    <string name="counter_text">0</string>
+
+    <!--Wordlist_activity-->
     <string name="kanji">Kanji</string>
     <string name="hiragana">Hiragana</string>
     <string name="romaji">Romaji</string>
