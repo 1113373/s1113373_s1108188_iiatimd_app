@@ -12,9 +12,9 @@ import com.android.volley.toolbox.Volley;
 import java.util.ArrayList;
 
 public class ProgressActivity extends AppCompatActivity {
-    private RecyclerView mRecyclerView;
-    private WordlistAdapter mWordlistAdapter;
-    private ArrayList<WordlistItem> mWordlist;
+    private RecyclerView mRecyclerView2;
+    private ProgressAdapter mProgressAdapter;
+    private ArrayList<ProgressItem> mProgress;
     private RequestQueue mRequestQueue;
 
     @Override
@@ -22,18 +22,18 @@ public class ProgressActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_progress);
 
-        mRecyclerView = findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView2 = findViewById(R.id.recycler_view2);
+        mRecyclerView2.setHasFixedSize(true);
+        mRecyclerView2.setLayoutManager(new LinearLayoutManager(this));
 
-        mWordlist = new ArrayList<>();
+        mProgress = new ArrayList<>();
 
         mRequestQueue = Volley.newRequestQueue(this);
         for (int i = 0; i <SecondActivity.kanji_data_local.size(); i++){
-            mWordlist.add(new WordlistItem(SecondActivity.kanji_data_local.get(i) , SecondActivity.hiragana_data_local.get(i), SecondActivity.romaji_data_local.get(i), SecondActivity.english_data_local.get(i)));
+
         }
-        mWordlistAdapter = new WordlistAdapter(ProgressActivity.this, mWordlist);
-        mRecyclerView.setAdapter(mWordlistAdapter);
+        mProgressAdapter = new ProgressAdapter(ProgressActivity.this, mProgress);
+        mRecyclerView2.setAdapter(mProgressAdapter);
     }
 
 }

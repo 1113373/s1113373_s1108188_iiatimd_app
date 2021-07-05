@@ -10,53 +10,50 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.WordlistViewHolder> {
+public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.ProgressViewHolder> {
     private Context mContext;
-    private ArrayList<WordlistItem> mWordlist;
+    private ArrayList<ProgressItem> mProgress;
 
-    public ProgressAdapter(Context context, ArrayList<WordlistItem> wordlist) {
+    public ProgressAdapter(Context context, ArrayList<ProgressItem> progress) {
         mContext = context;
-        mWordlist = wordlist;
+        mProgress = progress;
     }
 
     @Override
-    public WordlistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.wordlist_item, parent, false);
-        return new WordlistViewHolder(v);
+    public ProgressViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(mContext).inflate(R.layout.progress_item, parent, false);
+        return new ProgressViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ProgressAdapter.WordlistViewHolder holder, int position) {
-        WordlistItem currentItem = mWordlist.get(position);
+    public void onBindViewHolder(ProgressAdapter.ProgressViewHolder holder, int position) {
+        ProgressItem currentItem = mProgress.get(position);
 
-        String kanjiText = currentItem.getKanji();
-        String hiraganaText = currentItem.getHirgana();
-        String romajiText = currentItem.getRomaji();
-        String englishText = currentItem.getEnglish();
+        int mistakesText = currentItem.getMistakesTotal();
+        double percentageText = currentItem.getMistakesPercentage();
+        int dateText = currentItem.getDateQuiz();
 
-        holder.mTextViewKanji.setText("Kanji: " + kanjiText);
-        holder.mTextViewHiragana.setText("Hiragana: " + hiraganaText);
-        holder.mTextViewRomaji.setText("Romaji: " + romajiText);
-        holder.mTextViewEnglish.setText("English: " + englishText);
+        holder.mTextViewMistakes.setText("Kanji: " + mistakesText);
+        holder.mTextViewPercentage.setText("Hiragana: " + percentageText);
+        holder.mTextViewDate.setText("Romaji: " + dateText);
     }
 
     @Override
     public int getItemCount() {
-        return mWordlist.size();
+        return mProgress.size();
     }
 
-    public class WordlistViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextViewKanji;
-        public TextView mTextViewHiragana;
-        public TextView mTextViewRomaji;
-        public TextView mTextViewEnglish;
+    public class ProgressViewHolder extends RecyclerView.ViewHolder {
+        public TextView mTextViewMistakes;
+        public TextView mTextViewPercentage;
+        public TextView mTextViewDate;
 
-        public WordlistViewHolder(View itemView) {
+
+        public ProgressViewHolder(View itemView) {
             super(itemView);
-            mTextViewKanji = itemView.findViewById(R.id.kanji_textview);
-            mTextViewHiragana = itemView.findViewById(R.id.hiragana_textview);
-            mTextViewRomaji = itemView.findViewById(R.id.romaji_textview);
-            mTextViewEnglish = itemView.findViewById(R.id.english_textview);
+            mTextViewMistakes = itemView.findViewById(R.id.mistakes_textview);
+            mTextViewPercentage = itemView.findViewById(R.id.percentage_textview);
+            mTextViewDate = itemView.findViewById(R.id.date_textview);
         }
     }
 }
