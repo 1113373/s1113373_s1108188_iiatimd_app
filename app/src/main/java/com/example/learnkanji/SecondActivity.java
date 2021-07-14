@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -60,9 +61,15 @@ public class SecondActivity extends android.app.Activity {
         }
         //NO INTERNET NOTIFICATION
         else {
-            Toast.makeText(SecondActivity.this, "No internet connection found, local files will be used", Toast.LENGTH_SHORT).show();
+
             //Log.d("internetcheck", "failed");
-            readLocalFiles();
+            if (FileExists("kanji.txt")){
+                readLocalFiles();
+                Toast.makeText(SecondActivity.this, "No internet connection found, local files will be used", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(SecondActivity.this, "No internet connection and local files found, connect to internet to get data", Toast.LENGTH_SHORT).show();
+            }
         }
 
         start.setOnClickListener(view -> {
@@ -184,5 +191,10 @@ public class SecondActivity extends android.app.Activity {
             }
         });
         mQueue.add(request);
+    }
+
+    public boolean FileExists(String fname) {
+        File file = getBaseContext().getFileStreamPath(fname);
+        return file.exists();
     }
 }

@@ -50,6 +50,11 @@ public class ThirdActivity extends android.app.Activity {
         TextView counterLimit = findViewById(R.id.counter_limit);
 
         buttonStart.setOnClickListener(view -> {
+            if (!FileExists("kanji.txt")){
+                Toast.makeText(ThirdActivity.this, "No internet connection and local files found, connect to internet to get data", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ThirdActivity.this, SecondActivity.class));
+                return;
+            }
             getRandomCharacter();
             buttonStart.setVisibility(View.INVISIBLE);
             startTitle.setVisibility(View.INVISIBLE);
@@ -62,6 +67,7 @@ public class ThirdActivity extends android.app.Activity {
             answer4.setVisibility(View.VISIBLE);
             progressCounter.setVisibility(View.VISIBLE);
             progressText.setVisibility(View.VISIBLE);
+
         });
     }
 
