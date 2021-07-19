@@ -137,11 +137,9 @@ public class ThirdActivity extends android.app.Activity {
 
                     @Override
                     public void run() {
-                        for (int i = 0 ; i < dataWords.size(); i++) {
+
                             int n = new Random().nextInt(dataWords.size());
-
                             int realAnswer = new Random().nextInt(4);
-
                             String correct1;
                             int a2 = new Random().nextInt(dataWords.size());
                             mTextViewResult.setText(kanjiList.get(n).getKanji());
@@ -214,7 +212,7 @@ public class ThirdActivity extends android.app.Activity {
                             }
                         }
 
-                    }
+
 
                 });
 

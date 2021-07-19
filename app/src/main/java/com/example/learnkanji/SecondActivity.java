@@ -100,8 +100,6 @@ public class SecondActivity extends android.app.Activity {
                 for (Data data: dataWords) {
                     WordlistItem wordlistItem = new WordlistItem(data.getId(), data.getKanji(), data.getHiragana(), data.getRomaji(), data.getEnglish());
                     arrayList.add(wordlistItem);
-
-
                 }
 
             }
@@ -122,7 +120,7 @@ public class SecondActivity extends android.app.Activity {
 
                         JSONArray jsonArray = response.getJSONArray("Data");
                         words = new Gson().fromJson(jsonArray.toString(), new TypeToken<List<WordlistItem>>() {}.getType());
-                        
+
                         arrayList.clear();
                         arrayList.addAll(words);
 
