@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -15,20 +16,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class SecondActivity extends android.app.Activity {
     private RequestQueue mQueue;
@@ -36,7 +34,12 @@ public class SecondActivity extends android.app.Activity {
     public static ArrayList<String> hiragana_data_local = new ArrayList<>();
     public static ArrayList<String> romaji_data_local = new ArrayList<>();
     public static ArrayList<String> english_data_local = new ArrayList<>();
+    public static ArrayList<WordlistItem> arrayList = new ArrayList<>();
+    List<WordlistItem> words;
+    private
     boolean hasInternetAcces = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,24 +55,16 @@ public class SecondActivity extends android.app.Activity {
         if (hasInternetAcces) {
             //GET API DATA IN LOCAL FILE
             Log.d("internetCheck", "success");
-            //Toast.makeText(SecondActivity.this, "Internet connection found.", Toast.LENGTH_SHORT).show();
+
             getDataUsingVolley();
-            //DELAY TO PROCESS THE API CALL
-            new android.os.Handler().postDelayed(
-                    this::readLocalFiles, 250);
 
         }
-        //NO INTERNET NOTIFICATION
+
         else {
 
-            //Log.d("internetcheck", "failed");
-            if (FileExists("kanji.txt")){
-                readLocalFiles();
-                Toast.makeText(SecondActivity.this, "No internet connection found, local files will be used", Toast.LENGTH_SHORT).show();
-            }
-            else{
+                fetchFromRoom();
                 Toast.makeText(SecondActivity.this, "No internet connection and local files found, connect to internet to get data", Toast.LENGTH_SHORT).show();
-            }
+
         }
 
         start.setOnClickListener(view -> {
@@ -83,6 +78,10 @@ public class SecondActivity extends android.app.Activity {
         wordlist.setOnClickListener(view -> {
             startActivity(new Intent(SecondActivity.this, WordlistActivity.class));
         });
+
+
+
+
     }
 
     private void checkInternetConnection() {
@@ -92,92 +91,43 @@ public class SecondActivity extends android.app.Activity {
         Log.d("internet test", String.valueOf(hasInternetAcces));
     }
 
-    private void readLocalFiles() {
-        String splitKanjiList = readFromFile("kanji.txt");
-        String[] kanjiList = splitKanjiList.split("\\.");
-        String splitHiraganaList = readFromFile("hiragana.txt");
-        String[] hiraganaList = splitHiraganaList.split("\\.");
-        String splitRomajiList = readFromFile("romaji.txt");
-        String[] romajiList = splitRomajiList.split("\\.");
-        String splitEnglishList = readFromFile("english.txt");
-        String[] englishList = splitEnglishList.split("\\.");
+    private void fetchFromRoom(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<Data> dataWords = DatabaseClient.getInstance(SecondActivity.this).getAppDatabase().wordDAO().getAll();
+                arrayList.clear();
+                for (Data data: dataWords) {
+                    WordlistItem wordlistItem = new WordlistItem(data.getId(), data.getKanji(), data.getHiragana(), data.getRomaji(), data.getEnglish());
+                    arrayList.add(wordlistItem);
 
-        for (int i = 1; i < kanjiList.length; i++) {
-            kanji_data_local.add(kanjiList[i]);
-            hiragana_data_local.add(hiraganaList[i]);
-            romaji_data_local.add(romajiList[i]);
-            english_data_local.add(englishList[i]);
-        }
-    }
 
-    private void writeToFile(String data, String fileName) {
-        try {
-            FileOutputStream fileOut = openFileOutput(fileName, MODE_PRIVATE);
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOut);
-            Log.d("writing data to:", fileName + " " + data);
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String readFromFile(String fileName) {
-
-        String result = "";
-
-        try {
-            InputStream inputStream = openFileInput(fileName);
-
-            if (inputStream != null) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receivedString;
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ((receivedString = bufferedReader.readLine()) != null) {
-                    stringBuilder.append("\n").append(receivedString);
                 }
 
-                inputStream.close();
-                result = stringBuilder.toString();
             }
-        } catch (FileNotFoundException e) {
-            Log.e("FileReader", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("FileReader", "Can not read file: " + e.toString());
-        }
-        return result;
+        });
+        thread.start();
     }
 
     private void getDataUsingVolley() {
         String url = "http://10.0.2.2:8000/api/data";//emulator
-        //normal url "http://127.0.0.1:8000/api/data";
+        //String url = "http://127.0.0.1:8000/api/data";
         Log.d("api call", "api request called");
+
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
 
                 response -> {
                     try {
+
                         JSONArray jsonArray = response.getJSONArray("Data");
+                        words = new Gson().fromJson(jsonArray.toString(), new TypeToken<List<WordlistItem>>() {}.getType());
+                        
+                        arrayList.clear();
+                        arrayList.addAll(words);
 
-                        String kanjiList = "";
-                        String hiraganaList = "";
-                        String romajiList = "";
-                        String englishList = "";
+                        saveTask();
 
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject data = jsonArray.getJSONObject(i);
-                            kanjiList += data.getString("kanji") + ".";
-                            hiraganaList += data.getString("hiragana") + ".";
-                            romajiList += data.getString("romaji") + ".";
-                            englishList += data.getString("english") + ".";
-                        }
-
-                        writeToFile(kanjiList, "kanji.txt");
-                        writeToFile(hiraganaList, "hiragana.txt");
-                        writeToFile(romajiList, "romaji.txt");
-                        writeToFile(englishList, "english.txt");
                         hasInternetAcces = true;
 
                     } catch (JSONException e) {
@@ -193,8 +143,43 @@ public class SecondActivity extends android.app.Activity {
         mQueue.add(request);
     }
 
-    public boolean FileExists(String fname) {
-        File file = getBaseContext().getFileStreamPath(fname);
-        return file.exists();
-    }
+        private void saveTask() {
+
+
+            class SaveTask extends AsyncTask<Void, Void, Void> {
+
+                @Override
+                protected Void doInBackground(Void... voids) {
+
+                    //creating a task
+
+                    for (int i = 0; i < words.size(); i++){
+                        Data data = new Data();
+                        data.setId(words.get(i).getId());
+                        data.setKanji(words.get(i).getKanji());
+                        data.setHiragana(words.get(i).getHiragana());
+                        data.setRomaji(words.get(i).getRomaji());
+                        data.setEnglish(words.get(i).getEnglish());
+
+                        DatabaseClient.getInstance(getApplicationContext()).getAppDatabase().wordDAO().InsertWord(data);
+                    }
+
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);
+                    Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            SaveTask st = new SaveTask();
+            st.execute();
+        }
+
+
+
+
 }

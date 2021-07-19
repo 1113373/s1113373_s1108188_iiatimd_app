@@ -56,4 +56,5 @@ public class ProgressAdapter extends RecyclerView.Adapter<ProgressAdapter.Progre
             mTextViewDate = itemView.findViewById(R.id.date_textview);
         }
     }
+
 }

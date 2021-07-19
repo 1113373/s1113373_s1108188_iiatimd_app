@@ -30,7 +30,7 @@ public class WordlistAdapter extends RecyclerView.Adapter<WordlistAdapter.Wordli
         WordlistItem currentItem = mWordlist.get(position);
 
         String kanjiText = currentItem.getKanji();
-        String hiraganaText = currentItem.getHirgana();
+        String hiraganaText = currentItem.getHiragana();
         String romajiText = currentItem.getRomaji();
         String englishText = currentItem.getEnglish();
 
@@ -46,10 +46,7 @@ public class WordlistAdapter extends RecyclerView.Adapter<WordlistAdapter.Wordli
     }
 
     public class WordlistViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextViewKanji;
-        public TextView mTextViewHiragana;
-        public TextView mTextViewRomaji;
-        public TextView mTextViewEnglish;
+        public TextView mTextViewKanji, mTextViewHiragana, mTextViewRomaji, mTextViewEnglish;
 
         public WordlistViewHolder(View itemView) {
             super(itemView);
@@ -59,4 +56,6 @@ public class WordlistAdapter extends RecyclerView.Adapter<WordlistAdapter.Wordli
             mTextViewEnglish = itemView.findViewById(R.id.english_textview);
         }
     }
+
+
 }

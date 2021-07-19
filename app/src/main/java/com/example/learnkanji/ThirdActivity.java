@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,7 +18,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 
 public class ThirdActivity extends android.app.Activity {
@@ -55,7 +55,9 @@ public class ThirdActivity extends android.app.Activity {
                 startActivity(new Intent(ThirdActivity.this, SecondActivity.class));
                 return;
             }
-            getRandomCharacter();
+
+            fetchFromRoom();
+
             buttonStart.setVisibility(View.INVISIBLE);
             startTitle.setVisibility(View.INVISIBLE);
             startRomaji.setVisibility(View.INVISIBLE);
@@ -69,76 +71,7 @@ public class ThirdActivity extends android.app.Activity {
             progressText.setVisibility(View.VISIBLE);
 
         });
-    }
 
-
-    public void getRandomCharacter() {
-        int n = new Random().nextInt(30);
-        int realAnswer = new Random().nextInt(4);
-        String correct1;
-        String correct2 = SecondActivity.hiragana_data_local.get(n);
-        int a2 = new Random().nextInt(SecondActivity.hiragana_data_local.size());
-
-        mTextViewResult.setText(SecondActivity.kanji_data_local.get(n));
-
-        for (int i = 0; i < answerArray.length; i++) {
-            button[i] = findViewById(answerArray[i]);
-            int a1 = new Random().nextInt(30);
-
-            button[i].setText(SecondActivity.hiragana_data_local.get(a1));
-
-            button[i].setOnClickListener(view -> {
-                Context contextWrong = getApplicationContext();
-                CharSequence wrong = "Wrong Answer!";
-                int duration = Toast.LENGTH_SHORT;
-                Toast wrongAnswer = Toast.makeText(contextWrong, wrong, duration);
-                wrongAnswer.show();
-                mistakeCounter++;
-            });
-
-            if (SecondActivity.hiragana_data_local.get(a1).equals(correct2)) {
-                if (a1 != a2) {
-                    button[i].setText(SecondActivity.hiragana_data_local.get(a2));
-                } else button[i].setText(SecondActivity.hiragana_data_local.get(a1 + 1));
-            }
-
-        }
-        button[realAnswer].setText(SecondActivity.hiragana_data_local.get(n));
-        correct1 = (String) button[realAnswer].getText();
-        String finalCorrect = correct1;
-        button[realAnswer].setOnClickListener(view -> {
-
-            if (finalCorrect.equals(correct2)) {
-                mTextViewCounter = findViewById(R.id.answer_counter);
-                getRandomCharacter();
-                counter++;
-                String correctCounter = Integer.valueOf(counter).toString();
-                mTextViewCounter.setText(correctCounter);
-            }
-
-        });
-
-        if (counter == 29) {
-            Log.d("counter", "30X GEDAAN");
-            String date;
-            Calendar calendar = Calendar.getInstance();
-            date = DateFormat.getDateTimeInstance().format(calendar.getTime());
-            if (FileExists("mistakes.txt")) {
-                String oldMistakes = readFromFile("mistakes.txt");
-                String oldCorrect = readFromFile("correct.txt");
-                String oldDate = readFromFile("date.txt");
-                Log.d("oldMistakes", oldMistakes);
-                counter++;
-                writeToFile(oldMistakes + mistakeCounter + "|", "mistakes.txt");
-                writeToFile(oldCorrect + counter + "|", "correct.txt");
-                writeToFile(oldDate + date + "|", "date.txt");
-            } else {
-                writeToFile(mistakeCounter + "|", "mistakes.txt");
-                writeToFile(counter + "|", "correct.txt");
-                writeToFile(date + "|", "date.txt");
-            }
-            startActivity(new Intent(ThirdActivity.this, SecondActivity.class));
-        }
     }
 
     public String readFromFile(String fileName) {
@@ -183,5 +116,112 @@ public class ThirdActivity extends android.app.Activity {
     public boolean FileExists(String fname) {
         File file = getBaseContext().getFileStreamPath(fname);
         return file.exists();
+    }
+
+    private void fetchFromRoom(){
+
+
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<Data> dataWords = DatabaseClient.getInstance(ThirdActivity.this).getAppDatabase().wordDAO().getAll();
+                SecondActivity.arrayList.clear();
+
+                ArrayList<Data> kanjiList = new ArrayList<>();
+
+
+                kanjiList.addAll(dataWords);
+
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        for (int i = 0 ; i < dataWords.size(); i++) {
+                            int n = new Random().nextInt(dataWords.size());
+
+                            int realAnswer = new Random().nextInt(4);
+
+                            String correct1;
+                            int a2 = new Random().nextInt(dataWords.size());
+                            mTextViewResult.setText(kanjiList.get(n).getKanji());
+
+                            Log.d("hi", String.valueOf(kanjiList.size()));
+                            String correct2 = dataWords.get(n).getHiragana();
+
+
+
+                            Log.d("arraysize", String.valueOf(kanjiList.get(n).getKanji()));
+
+
+                            for (int a = 0; a < answerArray.length; a++) {
+                                button[a] = findViewById(answerArray[a]);
+                                int a1 = new Random().nextInt(30);
+
+                                button[a].setText(dataWords.get(a1).getHiragana());
+
+                                button[a].setOnClickListener(view -> {
+                                    Context contextWrong = getApplicationContext();
+                                    CharSequence wrong = "Wrong Answer!";
+                                    int duration = Toast.LENGTH_SHORT;
+                                    Toast wrongAnswer = Toast.makeText(contextWrong, wrong, duration);
+                                    wrongAnswer.show();
+                                    mistakeCounter++;
+                                });
+
+                                if (dataWords.get(a1).getHiragana().equals(correct2)) {
+                                    if (a1 != a2) {
+                                        button[a].setText(dataWords.get(a2).getHiragana());
+                                    } else button[a].setText(dataWords.get(a1 + 1).getHiragana());
+                                }
+
+                            }
+                            button[realAnswer].setText(dataWords.get(n).getHiragana());
+                            correct1 = (String) button[realAnswer].getText();
+                            String finalCorrect = correct1;
+                            button[realAnswer].setOnClickListener(view -> {
+
+                                if (finalCorrect.equals(correct2)) {
+                                    mTextViewCounter = findViewById(R.id.answer_counter);
+                                    fetchFromRoom();
+                                    counter++;
+                                    String correctCounter = Integer.valueOf(counter).toString();
+                                    mTextViewCounter.setText(correctCounter);
+                                }
+
+                            });
+
+                            if (counter == 29) {
+                                Log.d("counter", "30X GEDAAN");
+                                String date;
+                                Calendar calendar = Calendar.getInstance();
+                                date = DateFormat.getDateTimeInstance().format(calendar.getTime());
+                                if (FileExists("mistakes.txt")) {
+                                    String oldMistakes = readFromFile("mistakes.txt");
+                                    String oldCorrect = readFromFile("correct.txt");
+                                    String oldDate = readFromFile("date.txt");
+                                    Log.d("oldMistakes", oldMistakes);
+                                    counter++;
+                                    writeToFile(oldMistakes + mistakeCounter + "|", "mistakes.txt");
+                                    writeToFile(oldCorrect + counter + "|", "correct.txt");
+                                    writeToFile(oldDate + date + "|", "date.txt");
+                                } else {
+                                    writeToFile(mistakeCounter + "|", "mistakes.txt");
+                                    writeToFile(counter + "|", "correct.txt");
+                                    writeToFile(date + "|", "date.txt");
+                                }
+                                startActivity(new Intent(ThirdActivity.this, SecondActivity.class));
+                            }
+                        }
+
+                    }
+
+                });
+
+                }
+
+
+        });
+        thread.start();
     }
 }
