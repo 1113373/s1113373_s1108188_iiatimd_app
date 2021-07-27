@@ -44,9 +44,9 @@ public class FirebaseMessageReceiver extends FirebaseMessagingService {
 
         String channelId = "1";
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
-                .setContentTitle("Kanji of the day")
-                .setContentText(messageBody)
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("Haven't practiced today?")
+                .setContentText("Time to practice kanji! \uD83D\uDCDA⏰")
+                .setSmallIcon(R.drawable.ic_stat_onesignal_default)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
 
