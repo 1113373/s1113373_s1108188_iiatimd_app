@@ -30,26 +30,15 @@ public class WordlistActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         mWordlist = new ArrayList<>();
-        if (!FileExists("kanji.txt")){
-            Toast.makeText(WordlistActivity.this, "No internet connection and local files found, connect to internet to get data", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(WordlistActivity.this, SecondActivity.class));
-            return;
-        }
 
         Log.d("testarray", String.valueOf(SecondActivity.arrayList));
 
 
         mWordlistAdapter = new WordlistAdapter(WordlistActivity.this, mWordlist);
         mRecyclerView.setAdapter(mWordlistAdapter);
-
             mWordlist.clear();
             fetchFromRoom();
-
-
-
-
 
     }
 
@@ -71,7 +60,6 @@ public class WordlistActivity extends AppCompatActivity {
                         mWordlist.add(wordlistItem);
 
                         Log.d("checklist", mWordlist.get(0).getKanji());
-
 
                 }
             }

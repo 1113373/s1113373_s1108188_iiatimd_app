@@ -29,9 +29,8 @@ public class SecondActivity extends android.app.Activity {
     private RequestQueue mQueue;
     public static ArrayList<WordlistItem> arrayList = new ArrayList<>();
     List<WordlistItem> words;
-    private
+    //private
     boolean hasInternetAccess = false;
-
 
 
     @Override
@@ -54,20 +53,13 @@ public class SecondActivity extends android.app.Activity {
         }
 
         else {
-
                 fetchFromRoom();
                 Toast.makeText(SecondActivity.this, "No internet connection and local files found, connect to internet to get data", Toast.LENGTH_SHORT).show();
 
         }
-
         start.setOnClickListener(view -> startActivity(new Intent(SecondActivity.this, ThirdActivity.class)));
-
         progress.setOnClickListener(view -> startActivity(new Intent(SecondActivity.this, ProgressActivity.class)));
-
         wordlist.setOnClickListener(view -> startActivity(new Intent(SecondActivity.this, WordlistActivity.class)));
-
-
-
 
     }
 
@@ -88,8 +80,6 @@ public class SecondActivity extends android.app.Activity {
             for (Data data: dataWords) {
                 WordlistItem wordlistItem = new WordlistItem(data.getId(), data.getKanji(), data.getHiragana(), data.getRomaji(), data.getEnglish());
                 arrayList.add(wordlistItem);
-
-
             }
 
         });
