@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "67273676916",
+    "project_id": "push-notification-learnkanji",
+    "storage_bucket": "push-notification-learnkanji.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67273676916:android:590cd5b405f1457943d921",
+        "android_client_info": {
+          "package_name": "com.example.kanjilearn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "67273676916-3ihtdga9l68pul0aekugja3o08e4hrnr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDT8ymgqLl2S7S-VXX2CuTIc5DlRg8c4qk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "67273676916-3ihtdga9l68pul0aekugja3o08e4hrnr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

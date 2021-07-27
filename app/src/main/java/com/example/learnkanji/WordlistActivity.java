@@ -44,7 +44,13 @@ public class WordlistActivity extends AppCompatActivity {
         mWordlistAdapter = new WordlistAdapter(WordlistActivity.this, mWordlist);
         mRecyclerView.setAdapter(mWordlistAdapter);
 
-        fetchFromRoom();
+            mWordlist.clear();
+            fetchFromRoom();
+
+
+
+
+
     }
 
     public boolean FileExists(String fname) {
@@ -57,16 +63,17 @@ public class WordlistActivity extends AppCompatActivity {
             @Override
             public void run() {
                 List<Data> dataWords = DatabaseClient.getInstance(WordlistActivity.this).getAppDatabase().wordDAO().getAll();
-                SecondActivity.arrayList.clear();
-                for (Data data: dataWords) {
-                    WordlistItem wordlistItem = new WordlistItem(data.getId(), data.getKanji(), data.getHiragana(), data.getRomaji(), data.getEnglish());
-                    SecondActivity.arrayList.add(wordlistItem);
-                    Log.d("testdbWL", String.valueOf(data.getKanji()));
 
-                    mWordlist.add(new WordlistItem(data.getId(),data.getKanji(),data.getHiragana(),data.getRomaji(),data.getEnglish()));
+                for (int i = 0; i < dataWords.size(); i++) {
+                    WordlistItem wordlistItem = new WordlistItem(dataWords.get(i).getId(), dataWords.get(i).getKanji(), dataWords.get(i).getHiragana(), dataWords.get(i).getRomaji(), dataWords.get(i).getEnglish());
+
+
+                        mWordlist.add(wordlistItem);
+
+                        Log.d("checklist", mWordlist.get(0).getKanji());
+
 
                 }
-
             }
         });
         thread.start();

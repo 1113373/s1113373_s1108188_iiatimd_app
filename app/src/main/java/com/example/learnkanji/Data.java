@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 @Entity(tableName = "words")
 public class Data {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     int id;
 
     @ColumnInfo(name = "Kanji")

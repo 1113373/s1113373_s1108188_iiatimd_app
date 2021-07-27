@@ -1,5 +1,6 @@
 package com.example.learnkanji;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -12,32 +13,24 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class SecondActivity extends android.app.Activity {
     private RequestQueue mQueue;
-    public static ArrayList<String> kanji_data_local = new ArrayList<>();
-    public static ArrayList<String> hiragana_data_local = new ArrayList<>();
-    public static ArrayList<String> romaji_data_local = new ArrayList<>();
-    public static ArrayList<String> english_data_local = new ArrayList<>();
     public static ArrayList<WordlistItem> arrayList = new ArrayList<>();
     List<WordlistItem> words;
     private
-    boolean hasInternetAcces = false;
+    boolean hasInternetAccess = false;
 
 
 
@@ -52,7 +45,7 @@ public class SecondActivity extends android.app.Activity {
         mQueue = Volley.newRequestQueue(this);
 
         //CHECK FOR INTERNET ACCES
-        if (hasInternetAcces) {
+        if (hasInternetAccess) {
             //GET API DATA IN LOCAL FILE
             Log.d("internetCheck", "success");
 
@@ -67,17 +60,11 @@ public class SecondActivity extends android.app.Activity {
 
         }
 
-        start.setOnClickListener(view -> {
-            startActivity(new Intent(SecondActivity.this, ThirdActivity.class));
-        });
+        start.setOnClickListener(view -> startActivity(new Intent(SecondActivity.this, ThirdActivity.class)));
 
-        progress.setOnClickListener(view -> {
-            startActivity(new Intent(SecondActivity.this, ProgressActivity.class));
-        });
+        progress.setOnClickListener(view -> startActivity(new Intent(SecondActivity.this, ProgressActivity.class)));
 
-        wordlist.setOnClickListener(view -> {
-            startActivity(new Intent(SecondActivity.this, WordlistActivity.class));
-        });
+        wordlist.setOnClickListener(view -> startActivity(new Intent(SecondActivity.this, WordlistActivity.class)));
 
 
 
@@ -87,22 +74,24 @@ public class SecondActivity extends android.app.Activity {
     private void checkInternetConnection() {
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo nInfo = cm.getActiveNetworkInfo();
-        hasInternetAcces = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
-        Log.d("internet test", String.valueOf(hasInternetAcces));
+        hasInternetAccess = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
+        Log.d("internet test", String.valueOf(hasInternetAccess));
     }
 
     private void fetchFromRoom(){
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<Data> dataWords = DatabaseClient.getInstance(SecondActivity.this).getAppDatabase().wordDAO().getAll();
-                arrayList.clear();
-                for (Data data: dataWords) {
-                    WordlistItem wordlistItem = new WordlistItem(data.getId(), data.getKanji(), data.getHiragana(), data.getRomaji(), data.getEnglish());
-                    arrayList.add(wordlistItem);
-                }
+        Thread thread = new Thread(() -> {
+            List<Data> dataWords = DatabaseClient.getInstance(SecondActivity.this).getAppDatabase().wordDAO().getAll();
+            arrayList.clear();
+
+            for (int i = 0; i < dataWords.size(); i++)
+            Log.d("idcheck", String.valueOf(dataWords.get(i).getId()));
+            for (Data data: dataWords) {
+                WordlistItem wordlistItem = new WordlistItem(data.getId(), data.getKanji(), data.getHiragana(), data.getRomaji(), data.getEnglish());
+                arrayList.add(wordlistItem);
+
 
             }
+
         });
         thread.start();
     }
@@ -126,24 +115,23 @@ public class SecondActivity extends android.app.Activity {
 
                         saveTask();
 
-                        hasInternetAcces = true;
+                        hasInternetAccess = true;
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-                hasInternetAcces = false;
-            }
-        });
+                }, error -> {
+                    error.printStackTrace();
+                    hasInternetAccess = false;
+                });
         mQueue.add(request);
     }
 
         private void saveTask() {
 
 
+            @SuppressWarnings("deprecation")
+            @SuppressLint("StaticFieldLeak")
             class SaveTask extends AsyncTask<Void, Void, Void> {
 
                 @Override
@@ -152,8 +140,9 @@ public class SecondActivity extends android.app.Activity {
                     //creating a task
 
                     for (int i = 0; i < words.size(); i++){
+
                         Data data = new Data();
-                        data.setId(words.get(i).getId());
+
                         data.setKanji(words.get(i).getKanji());
                         data.setHiragana(words.get(i).getHiragana());
                         data.setRomaji(words.get(i).getRomaji());

@@ -27,31 +27,15 @@ public class WordlistItem {
         return kanji;
     }
 
-    public void setKanji(String kanji) {
-        this.kanji = kanji;
-    }
-
     public String getHiragana() {
         return hiragana;
-    }
-
-    public void setHiragana(String hiragana) {
-        this.hiragana = hiragana;
     }
 
     public String getRomaji() {
         return romaji;
     }
 
-    public void setRomaji(String romaji) {
-        this.romaji = romaji;
-    }
-
     public String getEnglish() {
         return english;
-    }
-
-    public void setEnglish(String english) {
-        this.english = english;
     }
 }

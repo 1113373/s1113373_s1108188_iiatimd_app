@@ -11,7 +11,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
-@Database(entities = {Data.class}, version = 11)
+@Database(entities = {Data.class}, version = 24)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract WordDAO wordDAO();
